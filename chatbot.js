@@ -254,7 +254,46 @@ document.addEventListener("DOMContentLoaded", () => {
       }
     }
 
-    // B. Check for FAQ keywords match with scoring system
+    // B. Check for Disorder Match
+    if (SUJOK_KB.disorders) {
+      let bestDisorder = null;
+      let highestDisorderScore = 0;
+
+      for (const key in SUJOK_KB.disorders) {
+        const disorder = SUJOK_KB.disorders[key];
+        let score = 0;
+        
+        disorder.keywords.forEach(keyword => {
+          if (cleanQuery === keyword) {
+            score += 10;
+          } else if (cleanQuery.includes(keyword)) {
+            score += keyword.split(" ").length * 2;
+          }
+        });
+
+        if (score > highestDisorderScore) {
+          highestDisorderScore = score;
+          bestDisorder = disorder;
+        }
+      }
+
+      if (bestDisorder && highestDisorderScore > 0) {
+        // Highlight corresponding organ if specified
+        if (bestDisorder.organLink) {
+          highlightSvgPoint(bestDisorder.organLink);
+        }
+        
+        return `
+          <h3>Treatment for ${bestDisorder.name}</h3>
+          <p><b>Metaphysical Aspect:</b> ${bestDisorder.metaphysical}</p>
+          <div class="treatment-details">
+            ${bestDisorder.treatment}
+          </div>
+        `;
+      }
+    }
+
+    // C. Check for FAQ keywords match with scoring system
     let bestMatch = null;
     let highestScore = 0;
 

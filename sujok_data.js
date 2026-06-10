@@ -43,10 +43,10 @@ const SUJOK_KB = {
     "meridians": {
       name: "12 Meridian System",
       description: "Energy pathways on the hands and feet that correspond to the main meridians of the body, allowing remote energy balancing.",
-      hand_yang: "3 Yang Meridians on the dorsal (back) hand: Large Intestine, Small Intestine, Spinal Cord (Triple Energizer). Flow downward.",
+      hand_yang: "3 Yang Meridians on the Yang (back) side of the hand: Large Intestine, Small Intestine, Spinal Cord (Triple Energizer). Flow downward.",
       foot_yin: "3 Yin Meridians on the foot: Liver, Spleen, Kidney. Flow upward.",
       foot_yang: "3 Yang Meridians on the foot: Stomach, Gall Bladder, Bladder. Flow downward.",
-      hand_yin: "3 Yin Meridians on the palm (palmar) hand: Heart, Brain (Pericardium), Lung. Flow upward."
+      hand_yin: "3 Yin Meridians on the Yin (palm) side of the hand: Heart, Brain (Pericardium), Lung. Flow upward."
     },
     "brain_spinal": {
       name: "Brain & Spinal Cord Meridians",
@@ -82,7 +82,7 @@ const SUJOK_KB = {
     head: {
       name: "Head, Brain, and Neck",
       keywords: ["head", "brain", "neck", "face", "headache", "migraine", "head pain", "stiff neck", "neck pain", "throat", "mouth", "tooth", "eye", "eyes", "nose", "ear", "ears"],
-      location: "Thumb (Palmar and Dorsal sides of the distal phalanx)",
+      location: "Thumb (Yin and Yang sides of the distal phalanx)",
       details: "The top of the thumb represents the head and brain. The face is on the soft pad of the thumb (eyes, nose, mouth). The neck corresponds to the lower joint of the thumb.",
       treatment: "For headaches, press the tip of the thumb. For neck pain or stiffness, massage the joint area of the thumb.",
       six_ki: "Hotness / Wind",
@@ -163,9 +163,9 @@ const SUJOK_KB = {
     kidneys: {
       name: "Kidneys",
       keywords: ["kidney", "kidneys", "renal", "lower back", "backache", "urinary", "urine", "fear", "back pain", "lumbago"],
-      location: "Dorsum (back) of the hand, in the depressions between the 2nd-3rd and 4th-5th metacarpal bones",
-      details: "Since kidneys are located towards the back of the human body, their correspondence points are on the back of the hand. There are two kidney points, shaped like beans.",
-      treatment: "For lower back pain, kidney stones, or chronic fear, massage these two spots on the back of the hand. Tape two kidney beans matching the orientation.",
+      location: "Yang side (back) of the hand, in the depressions between the 2nd-3rd and 4th-5th metacarpal bones",
+      details: "Since kidneys are located towards the back of the human body, their correspondence points are on the Yang side of the hand. There are two kidney points, shaped like beans.",
+      treatment: "For lower back pain, kidney stones, or chronic fear, massage these two spots on the Yang side of the hand. Tape two kidney beans matching the orientation.",
       six_ki: "Coldness",
       element: "Water"
     },
@@ -209,7 +209,7 @@ const SUJOK_KB = {
     },
     {
       keywords: ["brain and spinal", "shin po", "pericardium", "triple energizer", "spinal cord"],
-      answer: "<h3>Brain and Spinal Cord Meridians</h3><p>In standard Chinese medicine, the channels are translated as <i>Pericardium (Shin Po)</i> and <i>Triple Energizer (San Jiao)</i>. Prof. Park Jae Woo refined this, identifying them as the <b>Brain</b> and <b>Spinal Cord</b>:</p><ul><li><b>The Brain (Yin)</b>: Symbolized as the mind container. It controls mental thoughts, emotions, the nervous system, and coordinates the 5 Yin organs. The Brain meridian is located on the inner (palmar) side of the hand.</li><li><b>The Spinal Cord (Yang)</b>: The physical/metaphysical path that transmits brain instructions to the body and feeds sensory information back. The Spinal Cord meridian is on the outer (dorsal) side of the hand.</li></ul><p>These two channels belong to the <b>Hotness</b> energy (Fire element) and are critical for neurological and psycho-emotional healing.</p>"
+      answer: "<h3>Brain and Spinal Cord Meridians</h3><p>In standard Chinese medicine, the channels are translated as <i>Pericardium (Shin Po)</i> and <i>Triple Energizer (San Jiao)</i>. Prof. Park Jae Woo refined this, identifying them as the <b>Brain</b> and <b>Spinal Cord</b>:</p><ul><li><b>The Brain (Yin)</b>: Symbolized as the mind container. It controls mental thoughts, emotions, the nervous system, and coordinates the 5 Yin organs. The Brain meridian is located on the inner (Yin) side of the hand.</li><li><b>The Spinal Cord (Yang)</b>: The physical/metaphysical path that transmits brain instructions to the body and feeds sensory information back. The Spinal Cord meridian is on the outer (Yang) side of the hand.</li></ul><p>These two channels belong to the <b>Hotness</b> energy (Fire element) and are critical for neurological and psycho-emotional healing.</p>"
     },
     {
       keywords: ["seed therapy", "seeds", "how to use seeds"],

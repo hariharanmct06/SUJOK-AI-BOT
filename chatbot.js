@@ -2,10 +2,10 @@
 
 document.addEventListener("DOMContentLoaded", () => {
   // DOM Elements
-  const btnPalmar = document.getElementById("btn-palmar");
-  const btnDorsal = document.getElementById("btn-dorsal");
-  const svgPalmar = document.getElementById("svg-palmar");
-  const svgDorsal = document.getElementById("svg-dorsal");
+  const btnYin = document.getElementById("btn-yin");
+  const btnYang = document.getElementById("btn-yang");
+  const svgYin = document.getElementById("svg-yin");
+  const svgYang = document.getElementById("svg-yang");
   
   const chatBox = document.getElementById("chat-box");
   const chatForm = document.getElementById("chat-form");
@@ -28,28 +28,28 @@ document.addEventListener("DOMContentLoaded", () => {
   const chatNotification = document.getElementById("chat-notification");
 
   // State
-  let activeView = "palmar"; // palmar or dorsal
+  let activeView = "yin"; // yin or yang
 
-  // 1. VIEW SWITCHING (Palmar vs Dorsal hand map)
+  // 1. VIEW SWITCHING (Yin vs Yang hand map)
   function switchView(view) {
-    if (view === "palmar") {
-      btnPalmar.classList.add("active");
-      btnDorsal.classList.remove("active");
-      svgPalmar.style.display = "block";
-      svgDorsal.style.display = "none";
-      activeView = "palmar";
+    if (view === "yin") {
+      btnYin.classList.add("active");
+      btnYang.classList.remove("active");
+      svgYin.style.display = "block";
+      svgYang.style.display = "none";
+      activeView = "yin";
     } else {
-      btnDorsal.classList.add("active");
-      btnPalmar.classList.remove("active");
-      svgDorsal.style.display = "block";
-      svgPalmar.style.display = "none";
-      activeView = "dorsal";
+      btnYang.classList.add("active");
+      btnYin.classList.remove("active");
+      svgYang.style.display = "block";
+      svgYin.style.display = "none";
+      activeView = "yang";
     }
     resetActivePoints();
   }
 
-  btnPalmar.addEventListener("click", () => switchView("palmar"));
-  btnDorsal.addEventListener("click", () => switchView("dorsal"));
+  btnYin.addEventListener("click", () => switchView("yin"));
+  btnYang.addEventListener("click", () => switchView("yang"));
 
   // 2. SVG POINT INTERACTIONS
   const organPoints = document.querySelectorAll(".organ-point");
@@ -304,9 +304,9 @@ document.addEventListener("DOMContentLoaded", () => {
     resetActivePoints();
     
     // Detect which view is appropriate for the organ
-    let viewNeeded = "palmar";
-    if (organKey === "kidneys") {
-      viewNeeded = "dorsal";
+    let viewNeeded = "yin";
+    if (organKey === "kidneys" || organKey === "spinal_cord") {
+      viewNeeded = "yang";
     }
 
     if (activeView !== viewNeeded) {

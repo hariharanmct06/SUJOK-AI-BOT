@@ -978,8 +978,179 @@ const SUJOK_KB = {
     {
       keywords: ["insect correspondence", "finger body mapping"],
       answer: "<h3>The Insect Correspondence System</h3><p>In addition to the Main Correspondence system, Prof. Park Jae Woo developed the <b>Insect Correspondence System</b>. In this system, each individual finger and toe represents the <i>entire body</i> in miniature:</p><ul><li><b>Tip phalanx (distal)</b>: Represents the Head and Neck.</li><li><b>Middle phalanx (medial)</b>: Represents the Chest Cavity (Lungs and Heart).</li><li><b>Base phalanx (proximal)</b>: Represents the Abdominal Cavity (Stomach, Liver, Intestines, Kidneys).</li><li><b>Sides of the finger</b>: The sides represent the arms and legs.</li></ul><p>This system is highly effective for localized treatments, enabling you to treat chest conditions on the middle phalanx of any finger, or head issues on the tip of any finger.</p>"
+    },
+    {
+      keywords: ["left hand vs right hand", "both hands", "which hand to use", "left or right", "mirroring", "hand choice", "right hand treatment"],
+      answer: "<h3>Sujok Left Hand vs. Right Hand Treatment Guide</h3><p>In Sujok acupuncture, <b>both the Left and Right hands (and feet) represent the entire body</b>. They are independent holographic projection screens. You can treat illness on either hand. However, follow these professional guidelines from Prof. Park Jae Woo:</p><ul><li><b>Symptom Location (Local Rule)</b>: Treat on the hand that corresponds to the side of the body where the symptom lies. For example, treat left knee pain on the left hand (middle joint of the middle finger) and right knee pain on the right hand (middle joint of the middle finger).</li><li><b>Systemic & Constitutional Treatment</b>: For general or systemic diseases (like diabetes, hypertension, or emotional issues), either hand can be used. Many practitioners prefer the <b>Left Hand</b> as the primary diagnostic hand for overall balance, but both are fully effective.</li><li><b>Gender Rule (Yin-Yang)</b>: Traditionally, the Left Hand is considered more Yang (associated with male energy) and the Right Hand is more Yin (associated with female energy). Some practitioners prefer left-hand treatment for men and right-hand treatment for women for chronic constitutional issues, though clinically they are interchangeable.</li><li><b>Limb Mirroring Rule</b>: Note that limb correspondence mirrors between hands:<ul><li><b>Left Hand</b>: Index = Left Arm, Middle = Left Leg, Ring = Right Leg, Little = Right Arm.</li><li><b>Right Hand</b>: Index = Right Arm, Middle = Right Leg, Ring = Left Leg, Little = Left Arm.</li></ul></li></ul>"
+    },
+    {
+      keywords: ["finger lines", "meridian lines", "byol meridians", "flow arrows", "flow direction"],
+      answer: "<h3>Byol Meridians & Energy Flow on Fingers</h3><p>Prof. Park Jae Woo mapped the body's 12 energy meridians onto the fingers as **Byol Meridians** (miniature meridians). Each finger represents a limb and carries three vertical meridian lines:</p><ul><li><b>Yin Side of Hand (Palm)</b>: Energy flows <b>Upward</b> towards the fingertips on the Index, Ring, and Pinky fingers, but <b>Downward</b> on the Middle finger (to reflect the anatomical flow of legs vs. arms). The three Yin Byol lines represent:<ul><li><i>Index/Pinky fingers</i>: Lung (left line), Brain/Pericardium (center line), Heart (right line).</li><li><i>Middle/Ring fingers</i>: Liver (left line), Spleen (center line), Kidney (right line).</li></ul></li><li><b>Yang Side of Hand (Back)</b>: Energy flows <b>Downward</b> towards the hand base on the Index and Pinky fingers, but <b>Upward</b> on the Middle/Ring fingers. The three Yang Byol lines represent:<ul><li><i>Index/Pinky fingers</i>: Large Intestine (left line), Spinal Cord/Triple Energizer (center line), Small Intestine (right line).</li><li><i>Middle/Ring fingers</i>: Gallbladder (left line), Stomach (center line), Bladder (right line).</li></ul></li></ul><p>Click on any energy point (dot) along these lines to explore the specific 6 Ki therapeutic actions!</p>"
     }
-  ]
+  ],
+
+  // 6 Ki Byol Meridian Points database
+  byolPoints: {
+    // Yin Byol Meridians
+    lung: {
+      name: "Lung Byol Meridian",
+      side: "Yin",
+      organ: "lungs",
+      points: {
+        coldness: { name: "Coldness Point", ki: "Coldness", action: "Sedates lung heat, treats dry cough and throat irritation. Tonify to treat excessive thin watery mucus secretion." },
+        dryness: { name: "Dryness Point", ki: "Dryness", action: "Regulates skin condition and breathing. Sedate (Red) to treat dry asthma. Tonify (Brown) for watery chest congestion." },
+        humidity: { name: "Humidity Point", ki: "Humidity", action: "Balances lung fluids. Sedate (Green) to reduce heavy, damp phlegm. Tonify (Yellow) to treat dry bronchial passages." },
+        wind: { name: "Wind Point", ki: "Wind", action: "Controls breathing rhythm and airway spasms. Sedate (Blue) to stop acute asthmatic spasms or sneezing. Tonify (Green) to open airways in congestion." },
+        heat: { name: "Heat Point", ki: "Heat", action: "Regulates lung temperature. Sedate (Blue/Black) to reduce chest inflammation, fever, or yellow phlegm. Tonify (Red) for cold chills." },
+        hotness: { name: "Hotness Point", ki: "Hotness", action: "Governs spiritual breathing and neural lung connection. Sedate to calm respiratory anxiety. Tonify to boost vital oxygenation capacity." }
+      }
+    },
+    brain: {
+      name: "Brain Byol Meridian (Pericardium)",
+      side: "Yin",
+      organ: "head",
+      points: {
+        coldness: { name: "Coldness Point", ki: "Coldness", action: "Sedates mental excitement, cools brain temperature in fever, and reduces hyperactivity. Tonify to support weak memory." },
+        dryness: { name: "Dryness Point", ki: "Dryness", action: "Focuses thoughts and contracts over-expanded ideas. Sedate to treat depressive sadness. Tonify to improve sharp analytical concentration." },
+        humidity: { name: "Humidity Point", ki: "Humidity", action: "Regulates brain fluid and quietens obsessive thinking. Sedate to stop racing thoughts and worry. Tonify to ground the mind." },
+        wind: { name: "Wind Point", ki: "Wind", action: "Balances nervous impulses. Sedate to stop tremors, ticks, or mental agitation. Tonify to stimulate slow neural responses." },
+        heat: { name: "Heat Point", ki: "Heat", action: "Regulates brain circulation. Sedate to treat throbbing headaches and high blood pressure. Tonify to elevate low mood and low energy." },
+        hotness: { name: "Hotness Point", ki: "Hotness", action: "Governs sleep, consciousness, and severe anxiety. Sedate (Black) to treat insomnia and panic. Tonify (Orange) to treat depression and apathy." }
+      }
+    },
+    heart: {
+      name: "Heart Byol Meridian",
+      side: "Yin",
+      organ: "heart",
+      points: {
+        coldness: { name: "Coldness Point", ki: "Coldness", action: "Sedates rapid heart rates, cools blood heat, and reduces excitement. Tonify to strengthen weak arterial vessels." },
+        dryness: { name: "Dryness Point", ki: "Dryness", action: "Controls blood vessel elasticity. Sedate to treat high blood pressure. Tonify to contract bleeding or support vein strength." },
+        humidity: { name: "Humidity Point", ki: "Humidity", action: "Regulates fluid balance in the heart chamber. Sedate to treat swelling/edema. Tonify to nourish dry heart muscle tissues." },
+        wind: { name: "Wind Point", ki: "Wind", action: "Governs rhythmic beating. Sedate to treat arrhythmias and palpitations. Tonify to stimulate heart muscle vitality." },
+        heat: { name: "Heat Point", ki: "Heat", action: "Regulates vascular warmth and emotional joy. Sedate to treat high blood pressure and agitation. Tonify to warm cold limbs and boost low BP." },
+        hotness: { name: "Hotness Point", ki: "Hotness", action: "Associated with love, spirit, and acute anxiety. Sedate to treat sudden panic attacks. Tonify to treat lack of enthusiasm and grief." }
+      }
+    },
+    liver: {
+      name: "Liver Byol Meridian",
+      side: "Yin",
+      organ: "liver",
+      points: {
+        coldness: { name: "Coldness Point", ki: "Coldness", action: "Cools liver heat. Sedate to treat bloodshot eyes and liver inflammation. Tonify to treat liver deficiency and muscle stiffness." },
+        dryness: { name: "Dryness Point", ki: "Dryness", action: "Controls tendon flexibility. Sedate to relieve chronic tendon dryness. Tonify to treat liver blood deficiency." },
+        humidity: { name: "Humidity Point", ki: "Humidity", action: "Balances fat metabolism. Sedate to treat high cholesterol or fatty liver. Tonify to nourish liver parenchyma." },
+        wind: { name: "Wind Point", ki: "Wind", action: "Governs muscle contractions and anger. Sedate (Blue/Black) to stop muscle cramps, seizures, and anger outbreaks. Tonify to relieve fatigue." },
+        heat: { name: "Heat Point", ki: "Heat", action: "Regulates bile secretion and metabolic speed. Sedate to reduce bitter mouth taste and headache. Tonify to treat sluggish digestion." },
+        hotness: { name: "Hotness Point", ki: "Hotness", action: "Regulates liver detoxification and nerve signals. Sedate to treat migraine and toxicity. Tonify to boost metabolic recovery." }
+      }
+    },
+    spleen: {
+      name: "Spleen Byol Meridian",
+      side: "Yin",
+      organ: "spleen",
+      points: {
+        coldness: { name: "Coldness Point", ki: "Coldness", action: "Cools digestive heat. Sedate to treat mouth sores and stomach burning. Tonify to stop chronic soft stools." },
+        dryness: { name: "Dryness Point", ki: "Dryness", action: "Regulates blood filtration and muscle tone. Sedate to relieve muscle stiffness. Tonify to build red blood cells." },
+        humidity: { name: "Humidity Point", ki: "Humidity", action: "Governs worry and muscle bulk. Sedate (Green) to reduce body swelling, dampness, and overthinking. Tonify (Yellow) to treat muscle weakness." },
+        wind: { name: "Wind Point", ki: "Wind", action: "Balances lymphatic flow. Sedate to treat lymphatic swelling. Tonify to accelerate nutrient transport." },
+        heat: { name: "Heat Point", ki: "Heat", action: "Regulates digestive enzyme warmth. Sedate to reduce pancreatic inflammation. Tonify to treat cold digestion and food stagnation." },
+        hotness: { name: "Hotness Point", ki: "Hotness", action: "Regulates immune response and insulin. Sedate to treat autoimmune imbalances. Tonify to treat diabetes (boosts insulin sensitivity)." }
+      }
+    },
+    kidney: {
+      name: "Kidney Byol Meridian",
+      side: "Yin",
+      organ: "kidneys",
+      points: {
+        coldness: { name: "Coldness Point", ki: "Coldness", action: "Governs bones and fluid filtration. Sedate to treat kidney stones and water retention. Tonify to strengthen bones and treat osteoporosis." },
+        dryness: { name: "Dryness Point", ki: "Dryness", action: "Regulates kidney structure. Sedate to treat dry skin or renal atrophy. Tonify to contract excessive urination." },
+        humidity: { name: "Humidity Point", ki: "Humidity", action: "Balances renal fluid. Sedate to treat swollen ankles (edema). Tonify to support joint cartilage lubrication." },
+        wind: { name: "Wind Point", ki: "Wind", action: "Governs urinary sphincter tension and fear. Sedate to treat fear/phobias. Tonify to treat urinary incontinence." },
+        heat: { name: "Heat Point", ki: "Heat", action: "Warms the kidneys. Sedate to treat dark, burning urine. Tonify (Red/Orange) to treat cold lower back, knee weakness, and cold feet." },
+        hotness: { name: "Hotness Point", ki: "Hotness", action: "Governs endocrine adrenal hormones. Sedate to treat adrenal exhaustion. Tonify to boost general stamina and warmth." }
+      }
+    },
+
+    // Yang Byol Meridians
+    large_intestine: {
+      name: "Large Intestine Byol Meridian",
+      side: "Yang",
+      organ: "intestines",
+      points: {
+        coldness: { name: "Coldness Point", ki: "Coldness", action: "Sedate to treat chronic cold diarrhea. Tonify to lubricate dry stool in constipation." },
+        dryness: { name: "Dryness Point", ki: "Dryness", action: "Governs colon dryness and excretion. Sedate (Red) to treat severe constipation. Tonify (Brown) to stop loose bowels." },
+        humidity: { name: "Humidity Point", ki: "Humidity", action: "Balances colon mucus. Sedate to treat bloating and gas. Tonify to support mucous lining healing in colitis." },
+        wind: { name: "Wind Point", ki: "Wind", action: "Governs peristaltic movement. Sedate (Blue) to stop bowel cramps, diarrhea, and spasms. Tonify (Green) to stimulate bowel movements." },
+        heat: { name: "Heat Point", ki: "Heat", action: "Regulates intestinal inflammation. Sedate (Blue) to treat colitis, hemorrhoids, and rectal burning. Tonify to warm cold digestion." },
+        hotness: { name: "Hotness Point", ki: "Hotness", action: "Governs cellular bowel regeneration. Sedate to treat bowel anxiety. Tonify to boost digestive assimilation." }
+      }
+    },
+    spinal_cord: {
+      name: "Spinal Cord Byol Meridian (Triple Energizer)",
+      side: "Yang",
+      organ: "spinal_cord",
+      points: {
+        coldness: { name: "Coldness Point", ki: "Coldness", action: "Cools spinal column. Sedate to treat spinal inflammation. Tonify to support spinal nerve myelination and treat weakness." },
+        dryness: { name: "Dryness Point", ki: "Dryness", action: "Regulates nerve conduction speed. Sedate to relax rigid back muscles. Tonify to treat neural numbness." },
+        humidity: { name: "Humidity Point", ki: "Humidity", action: "Balances spinal fluid. Sedate to reduce spinal canal swelling. Tonify to nourish spinal discs." },
+        wind: { name: "Wind Point", ki: "Wind", action: "Governs nerve transmission and muscle reflexes. Sedate to stop spasms, ticks, or sciatica. Tonify to stimulate weak limb reflexes." },
+        heat: { name: "Heat Point", ki: "Heat", action: "Warms nerve pathways. Sedate to treat cervical spondylosis pain. Tonify to treat cold, numb limbs due to poor nerve signals." },
+        hotness: { name: "Hotness Point", ki: "Hotness", action: "Governs central nervous system (CNS) energy. Sedate to calm hyperactive nerve pain. Tonify to treat chronic nerve fatigue." }
+      }
+    },
+    small_intestine: {
+      name: "Small Intestine Byol Meridian",
+      side: "Yang",
+      organ: "intestines",
+      points: {
+        coldness: { name: "Coldness Point", ki: "Coldness", action: "Cools intestinal warmth. Sedate to treat watery diarrhea. Tonify to increase nutrient absorption." },
+        dryness: { name: "Dryness Point", ki: "Dryness", action: "Dryness controls fluid absorption. Sedate to relieve dry, hard stool. Tonify to improve fluid reclamation." },
+        humidity: { name: "Humidity Point", ki: "Humidity", action: "Balances digestive juices. Sedate to treat bloating and sluggish digestion. Tonify to soothe dry intestinal walls." },
+        wind: { name: "Wind Point", ki: "Wind", action: "Governs assimilation speed. Sedate to slow hyper-active digestion. Tonify to treat slow, heavy digestion." },
+        heat: { name: "Heat Point", ki: "Heat", action: "Regulates core digestive heat. Sedate to treat stomach acid reflux and burning. Tonify to warm up a weak digestive system." },
+        hotness: { name: "Hotness Point", ki: "Hotness", action: "Governs cellular intestinal vitality. Sedate to treat bowel sensitivity. Tonify to boost overall metabolic absorption." }
+      }
+    },
+    gallbladder: {
+      name: "Gallbladder Byol Meridian",
+      side: "Yang",
+      organ: "gallbladder",
+      points: {
+        coldness: { name: "Coldness Point", ki: "Coldness", action: "Cools bile fire. Sedate to treat acute gallbladder pain and side-headaches. Tonify to treat chronic weakness." },
+        dryness: { name: "Dryness Point", ki: "Dryness", action: "Regulates bile viscosity. Sedate to prevent gallstone formation (tonify water/humidity instead). Tonify to concentrate bile." },
+        humidity: { name: "Humidity Point", ki: "Humidity", action: "Balances bile volume. Sedate to treat sluggish fat digestion. Tonify to support dry bile ducts." },
+        wind: { name: "Wind Point", ki: "Wind", action: "Governs bile release. Sedate (Blue) to stop gallbladder spasms or temporal migraine. Tonify (Green) to stimulate bile flow." },
+        heat: { name: "Heat Point", ki: "Heat", action: "Cools gallbladder inflammation. Sedate (Blue/Black) to treat cholecystitis. Tonify to warm up sluggish digestive flow." },
+        hotness: { name: "Hotness Point", ki: "Hotness", action: "Governs neural gallbladder signals. Sedate to treat temporal headaches. Tonify to boost general fat metabolism." }
+      }
+    },
+    stomach: {
+      name: "Stomach Byol Meridian",
+      side: "Yang",
+      organ: "stomach",
+      points: {
+        coldness: { name: "Coldness Point", ki: "Coldness", action: "Cools stomach fire. Sedate to treat mouth ulcers, dry mouth, and heartburn. Tonify to stop chronic morning diarrhea." },
+        dryness: { name: "Dryness Point", ki: "Dryness", action: "Regulates stomach lining hydration. Sedate (Red) to treat dry retching. Tonify (Brown) to contract excessive acid." },
+        humidity: { name: "Humidity Point", ki: "Humidity", action: "Governs bloating and digestion. Sedate (Green) to treat stomach bloating, heaviness, and worry. Tonify (Yellow) to treat stomach lining weakness." },
+        wind: { name: "Wind Point", ki: "Wind", action: "Governs stomach contractions. Sedate (Blue) to stop stomach cramps, nausea, and vomiting. Tonify (Green) to stimulate digestion." },
+        heat: { name: "Heat Point", ki: "Heat", action: "Regulates stomach acid. Sedate (Blue/Black) to treat hyperacidity, GERD, and stomach burning. Tonify to treat cold stomach indigestion." },
+        hotness: { name: "Hotness Point", ki: "Hotness", action: "Governs nervous stomach signals. Sedate to treat anxiety-induced stomach knots. Tonify to support metabolic speed." }
+      }
+    },
+    bladder: {
+      name: "Urinary Bladder Byol Meridian",
+      side: "Yang",
+      organ: "bladder",
+      points: {
+        coldness: { name: "Coldness Point", ki: "Coldness", action: "Cools bladder fire. Sedate to treat burning urination and UTIs. Tonify to treat bladder leakage and weak stream." },
+        dryness: { name: "Dryness Point", ki: "Dryness", action: "Dryness controls urination frequency. Sedate to treat frequent urination. Tonify to treat urinary retention." },
+        humidity: { name: "Humidity Point", ki: "Humidity", action: "Balances bladder lining fluid. Sedate to treat cystitis swelling. Tonify to soothe irritated bladder walls." },
+        wind: { name: "Wind Point", ki: "Wind", action: "Governs bladder muscle spasms and bedwetting. Sedate (Blue) to treat bedwetting and spasms. Tonify (Green) to support bladder sphincter strength." },
+        heat: { name: "Heat Point", ki: "Heat", action: "Cools bladder heat. Sedate (Blue/Black) to treat UTIs and pelvic burning. Tonify to treat coldness in the pelvic cavity." },
+        hotness: { name: "Hotness Point", ki: "Hotness", action: "Governs neural bladder signals. Sedate to calm neurogenic bladder issues. Tonify to boost pelvic tone." }
+      }
+    }
+  }
 };
 
 // Export if running in Node, otherwise attach to window
@@ -988,3 +1159,4 @@ if (typeof module !== "undefined" && module.exports) {
 } else {
   window.SUJOK_KB = SUJOK_KB;
 }
+

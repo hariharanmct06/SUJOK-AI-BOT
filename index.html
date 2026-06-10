@@ -49,80 +49,282 @@
         Select a view and click on any highlighted region of the hand to explore its organ correspondence, 6 Ki energy, and treatment tips.
       </p>
 
+      <!-- Hand Toggle Selector -->
+      <div class="view-selector" style="margin-bottom: 0.5rem;">
+        <button class="view-btn active" id="btn-left-hand" data-hand="left">Left Hand</button>
+        <button class="view-btn" id="btn-right-hand" data-hand="right">Right Hand</button>
+      </div>
+
       <!-- View Toggle Selector -->
-      <div class="view-selector">
+      <div class="view-selector" style="margin-bottom: 0.5rem;">
         <button class="view-btn active" id="btn-yin" data-view="yin">Yin Side (Front)</button>
         <button class="view-btn" id="btn-yang" data-view="yang">Yang Side (Back)</button>
       </div>
 
+      <!-- Map Mode Selector -->
+      <div class="view-selector" style="margin-bottom: 0.75rem;">
+        <button class="view-btn active" id="btn-mode-organs" data-mode="organs">Organ Correspondence</button>
+        <button class="view-btn" id="btn-mode-meridians" data-mode="meridians">6 Ki Meridians</button>
+      </div>
+
+      <!-- Dual Hand Treatment Tip -->
+      <div class="dual-hand-tip" id="hand-treatment-guide" style="font-size: 0.8rem; padding: 0.6rem 0.8rem; border-radius: var(--radius-sm); background: hsla(150, 84%, 37%, 0.08); border: 1px solid rgba(16, 185, 129, 0.15); margin-bottom: 0.75rem; display: flex; align-items: start; gap: 0.5rem; line-height: 1.35;">
+        <i class="fa-solid fa-circle-info" style="color: var(--primary-light); margin-top: 2px;"></i>
+        <span>
+          <strong>Treatment on Both Hands:</strong> Sujok can be done on either hand. The limb correspondence mirrors: on <b>Left Hand</b>, Index is Left Arm; on <b>Right Hand</b>, Index is Right Arm. Choose the hand matching the symptom side.
+        </span>
+      </div>
+
       <!-- Hand Map Card -->
-      <div class="card hand-map-card">
+      <div class="card hand-map-card" id="hand-map-container">
         
         <!-- YIN VIEW SVG -->
-        <svg class="svg-container" id="svg-yin" viewBox="0 0 200 380" xmlns="http://www.w3.org/2000/svg">
-          <!-- Hand Outline -->
-          <path class="hand-outline" d="M 110,360 C 95,360 80,340 70,300 C 50,290 20,250 15,220 C 10,195 25,175 45,190 C 55,198 65,210 70,225 L 70,105 C 70,90 90,90 90,105 L 90,210 L 95,75 C 95,60 115,60 115,75 L 115,200 L 120,65 C 120,50 140,50 140,65 L 140,205 L 145,80 C 145,65 165,65 165,80 L 165,270 C 165,310 160,340 145,360 Z" />
+        <svg class="svg-container left-hand" id="svg-yin" viewBox="0 0 200 380" xmlns="http://www.w3.org/2000/svg">
+          <defs>
+            <pattern id="hologram-grid-yin" width="12" height="12" patternUnits="userSpaceOnUse">
+              <path d="M 12 0 L 0 0 0 12" fill="none" stroke="hsla(150, 84%, 37%, 0.12)" stroke-width="0.5"/>
+            </pattern>
+          </defs>
           
-          <!-- Organ Correspondence Point Fills -->
-          <!-- Head / Brain (Thumb Tip) -->
-          <circle class="organ-point" id="pt-head" data-organ="head" cx="30" cy="205" r="16" />
+          <!-- Holographic Layered Outline -->
+          <path class="hand-outline-bg" d="M 110,360 C 95,360 80,340 70,300 C 50,290 20,250 15,220 C 10,195 25,175 45,190 C 55,198 65,210 70,225 L 70,105 C 70,90 90,90 90,105 L 90,210 L 95,75 C 95,60 115,60 115,75 L 115,200 L 120,65 C 120,50 140,50 140,65 L 140,205 L 145,80 C 145,65 165,65 165,80 L 165,270 C 165,310 160,340 145,360 Z" fill="hsla(223, 33%, 8%, 0.85)" />
+          <path class="hand-outline-grid" d="M 110,360 C 95,360 80,340 70,300 C 50,290 20,250 15,220 C 10,195 25,175 45,190 C 55,198 65,210 70,225 L 70,105 C 70,90 90,90 90,105 L 90,210 L 95,75 C 95,60 115,60 115,75 L 115,200 L 120,65 C 120,50 140,50 140,65 L 140,205 L 145,80 C 145,65 165,65 165,80 L 165,270 C 165,310 160,340 145,360 Z" fill="url(#hologram-grid-yin)" />
+          <path class="hand-outline" d="M 110,360 C 95,360 80,340 70,300 C 50,290 20,250 15,220 C 10,195 25,175 45,190 C 55,198 65,210 70,225 L 70,105 C 70,90 90,90 90,105 L 90,210 L 95,75 C 95,60 115,60 115,75 L 115,200 L 120,65 C 120,50 140,50 140,65 L 140,205 L 145,80 C 145,65 165,65 165,80 L 165,270 C 165,310 160,340 145,360 Z" fill="none" stroke="var(--primary)" stroke-width="2" />
           
-          <!-- Heart (Thenar Eminence) -->
-          <ellipse class="organ-point" id="pt-heart" data-organ="heart" cx="65" cy="265" rx="14" ry="18" />
-          
-          <!-- Lungs (Upper Chest Zone) -->
-          <path class="organ-point" id="pt-lungs" data-organ="lungs" d="M 52,238 C 52,228 92,226 92,238 C 92,248 52,252 52,238 Z M 108,238 C 108,228 148,226 148,238 C 148,252 108,248 108,238 Z" />
-          
-          <!-- Stomach -->
-          <ellipse class="organ-point" id="pt-stomach" data-organ="stomach" cx="88" cy="292" rx="15" ry="11" />
-          
-          <!-- Liver -->
-          <path class="organ-point" id="pt-liver" data-organ="liver" d="M 102,285 L 135,280 C 142,292 120,305 102,285 Z" />
-          
-          <!-- Spleen -->
-          <circle class="organ-point" id="pt-spleen" data-organ="spleen" cx="72" cy="305" r="7" />
-          
-          <!-- Gallbladder -->
-          <circle class="organ-point" id="pt-gallbladder" data-organ="gallbladder" cx="115" cy="298" r="5" />
-          
-          <!-- Pancreas -->
-          <ellipse class="organ-point" id="pt-pancreas" data-organ="pancreas" cx="100" cy="312" rx="16" ry="4" />
-          
-          <!-- Urinary Bladder -->
-          <circle class="organ-point" id="pt-bladder" data-organ="bladder" cx="118" cy="354" r="8" />
-          
-          <!-- Intestines -->
-          <path class="organ-point" id="pt-intestines" data-organ="intestines" d="M 85,340 C 85,320 135,320 135,340 C 130,350 90,350 85,340 Z M 95,335 C 95,328 125,328 125,335 Z" />
-          
-          <!-- Limbs (Arms & Legs - represented by finger segments) -->
-          <!-- Left Arm (Index) -->
-          <line class="organ-point" id="pt-left-arm" data-organ="limbs" x1="80" y1="110" x2="80" y2="190" stroke-width="12" stroke-linecap="round" />
-          <!-- Left Leg (Middle) -->
-          <line class="organ-point" id="pt-left-leg" data-organ="limbs" x1="105" y1="85" x2="105" y2="180" stroke-width="12" stroke-linecap="round" />
-          <!-- Right Leg (Ring) -->
-          <line class="organ-point" id="pt-right-leg" data-organ="limbs" x1="130" y1="75" x2="130" y2="185" stroke-width="12" stroke-linecap="round" />
-          <!-- Right Arm (Pinky) -->
-          <line class="organ-point" id="pt-right-arm" data-organ="limbs" x1="155" y1="95" x2="155" y2="195" stroke-width="12" stroke-linecap="round" />
+          <!-- ORGAN GROUP -->
+          <g class="organ-group">
+            <!-- Brain (Thumb Tip) -->
+            <path class="organ-point pt-head-style" id="pt-head" data-organ="head" d="M 28,190 C 20,190 18,195 18,202 C 18,212 25,220 30,220 C 35,220 42,212 42,202 C 42,195 40,190 32,190 C 31,190 30,191 30,191 C 30,191 29,190 28,190 Z" />
+            <!-- Brain Face Features (Nose/Eyes/Mouth icons for clarity) -->
+            <path class="cortex-line" d="M 24,195 Q 30,200 30,215 M 36,195 Q 30,200 30,215 M 18,202 H 42 M 30,190 V 220" stroke="hsla(38, 92%, 50%, 0.3)" stroke-width="1" fill="none" pointer-events="none" />
+            <circle cx="26" cy="204" r="1.5" fill="hsla(38, 92%, 50%, 0.8)" pointer-events="none" />
+            <circle cx="34" cy="204" r="1.5" fill="hsla(38, 92%, 50%, 0.8)" pointer-events="none" />
+            <path d="M 28,212 Q 30,215 32,212" stroke="hsla(38, 92%, 50%, 0.8)" stroke-width="1.5" fill="none" pointer-events="none" />
+
+            <!-- Lungs -->
+            <!-- Left Lung -->
+            <path class="organ-point pt-lungs-style" id="pt-lung-left" data-organ="lungs" d="M 52,228 C 50,234 50,248 56,252 C 64,256 86,256 86,244 C 86,234 78,228 52,228 Z" />
+            <!-- Right Lung -->
+            <path class="organ-point pt-lungs-style" id="pt-lung-right" data-organ="lungs" d="M 148,228 C 150,234 150,248 144,252 C 136,256 114,256 114,244 C 114,234 122,228 148,228 Z" />
+            <path class="bronchi-line" d="M 72,236 L 66,246 M 72,236 L 75,248 M 128,236 L 134,246 M 128,236 L 125,248" stroke="hsla(199, 89%, 48%, 0.5)" stroke-width="1.5" fill="none" pointer-events="none" />
+
+            <!-- Heart -->
+            <path class="organ-point pt-heart-style" id="pt-heart" data-organ="heart" d="M 68,252 C 63,248 56,250 56,260 C 56,272 68,282 68,285 C 68,282 80,272 80,260 C 80,250 73,248 68,252 Z" />
+            <path class="aorta-line" d="M 68,254 V 246 Q 72,243 75,248" stroke="hsla(0, 84%, 55%, 0.6)" stroke-width="2" fill="none" pointer-events="none" />
+
+            <!-- Stomach -->
+            <path class="organ-point pt-stomach-style" id="pt-stomach" data-organ="stomach" d="M 72,286 C 80,280 94,280 98,288 C 102,298 90,305 82,305 C 70,305 68,295 72,286 Z" />
+            
+            <!-- Liver -->
+            <path class="organ-point pt-liver-style" id="pt-liver" data-organ="liver" d="M 102,284 C 114,278 132,278 138,284 C 141,292 124,305 104,302 C 100,296 99,288 102,284 Z" />
+            
+            <!-- Spleen -->
+            <path class="organ-point pt-spleen-style" id="pt-spleen" data-organ="spleen" d="M 64,302 C 70,299 73,303 72,310 C 70,317 64,315 62,308 C 62,305 63,303 64,302 Z" />
+            
+            <!-- Gallbladder -->
+            <path class="organ-point pt-gallbladder-style" id="pt-gallbladder" data-organ="gallbladder" d="M 112,295 C 116,295 118,299 116,303 C 114,307 108,307 108,303 C 108,299 110,295 112,295 Z" />
+            
+            <!-- Pancreas -->
+            <path class="organ-point pt-pancreas-style" id="pt-pancreas" data-organ="pancreas" d="M 82,310 L 118,310 Q 120,312 118,314 L 82,314 Q 80,312 82,310 Z" fill="none" stroke-width="4" />
+            
+            <!-- Urinary Bladder -->
+            <path class="organ-point pt-bladder-style" id="pt-bladder" data-organ="bladder" d="M 105,354 C 105,346 115,346 115,354 C 115,362 105,362 105,354 Z" />
+            
+            <!-- Intestines (Large and Small) -->
+            <path class="organ-point pt-intestines-style" id="pt-large-intestine" data-organ="intestines" d="M 84,345 V 322 C 84,318 126,318 126,322 V 345" fill="none" stroke-width="8" stroke-linecap="round" />
+            <path class="organ-point pt-intestines-style" id="pt-small-intestine" data-organ="intestines" d="M 92,328 C 96,325 112,325 116,328 C 116,332 96,332 96,336 C 102,340 112,340 116,336" fill="none" stroke-width="4" stroke-linecap="round" />
+
+            <!-- Limbs (Arms & Legs - represented by finger segments) -->
+            <!-- Left Arm (Index) -->
+            <line class="organ-point pt-limbs-style" id="pt-left-arm" data-organ="limbs" x1="80" y1="110" x2="80" y2="190" stroke-width="12" stroke-linecap="round" />
+            <!-- Left Leg (Middle) -->
+            <line class="organ-point pt-limbs-style" id="pt-left-leg" data-organ="limbs" x1="105" y1="85" x2="105" y2="180" stroke-width="12" stroke-linecap="round" />
+            <!-- Right Leg (Ring) -->
+            <line class="organ-point pt-limbs-style" id="pt-right-leg" data-organ="limbs" x1="130" y1="75" x2="130" y2="185" stroke-width="12" stroke-linecap="round" />
+            <!-- Right Arm (Pinky) -->
+            <line class="organ-point pt-limbs-style" id="pt-right-arm" data-organ="limbs" x1="155" y1="95" x2="155" y2="195" stroke-width="12" stroke-linecap="round" />
+          </g>
+
+          <!-- 6 KI MERIDIAN GROUP -->
+          <g class="meridian-group">
+            <!-- Index Finger Yin Meridians (Lung, Brain, Heart) -->
+            <line class="meridian-line" x1="74" y1="110" x2="74" y2="190" stroke="hsla(199, 89%, 48%, 0.4)" stroke-width="1.5" />
+            <line class="meridian-line" x1="80" y1="110" x2="80" y2="190" stroke="hsla(38, 92%, 50%, 0.4)" stroke-width="1.5" />
+            <line class="meridian-line" x1="86" y1="110" x2="86" y2="190" stroke="hsla(0, 84%, 55%, 0.4)" stroke-width="1.5" />
+
+            <!-- 6 Ki Dots on Lung (Index, Yin) -->
+            <circle class="ki-dot dot-coldness" data-meridian="lung" data-ki="coldness" cx="74" cy="190" r="4.5" />
+            <circle class="ki-dot dot-dryness" data-meridian="lung" data-ki="dryness" cx="74" cy="174" r="4.5" />
+            <circle class="ki-dot dot-humidity" data-meridian="lung" data-ki="humidity" cx="74" cy="158" r="4.5" />
+            <circle class="ki-dot dot-wind" data-meridian="lung" data-ki="wind" cx="74" cy="142" r="4.5" />
+            <circle class="ki-dot dot-heat" data-meridian="lung" data-ki="heat" cx="74" cy="126" r="4.5" />
+            <circle class="ki-dot dot-hotness" data-meridian="lung" data-ki="hotness" cx="74" cy="110" r="4.5" />
+
+            <!-- 6 Ki Dots on Brain (Index, Yin) -->
+            <circle class="ki-dot dot-coldness" data-meridian="brain" data-ki="coldness" cx="80" cy="190" r="4.5" />
+            <circle class="ki-dot dot-dryness" data-meridian="brain" data-ki="dryness" cx="80" cy="174" r="4.5" />
+            <circle class="ki-dot dot-humidity" data-meridian="brain" data-ki="humidity" cx="80" cy="158" r="4.5" />
+            <circle class="ki-dot dot-wind" data-meridian="brain" data-ki="wind" cx="80" cy="142" r="4.5" />
+            <circle class="ki-dot dot-heat" data-meridian="brain" data-ki="heat" cx="80" cy="126" r="4.5" />
+            <circle class="ki-dot dot-hotness" data-meridian="brain" data-ki="hotness" cx="80" cy="110" r="4.5" />
+
+            <!-- 6 Ki Dots on Heart (Index, Yin) -->
+            <circle class="ki-dot dot-coldness" data-meridian="heart" data-ki="coldness" cx="86" cy="190" r="4.5" />
+            <circle class="ki-dot dot-dryness" data-meridian="heart" data-ki="dryness" cx="86" cy="174" r="4.5" />
+            <circle class="ki-dot dot-humidity" data-meridian="heart" data-ki="humidity" cx="86" cy="158" r="4.5" />
+            <circle class="ki-dot dot-wind" data-meridian="heart" data-ki="wind" cx="86" cy="142" r="4.5" />
+            <circle class="ki-dot dot-heat" data-meridian="heart" data-ki="heat" cx="86" cy="126" r="4.5" />
+            <circle class="ki-dot dot-hotness" data-meridian="heart" data-ki="hotness" cx="86" cy="110" r="4.5" />
+
+            <!-- Middle Finger Yin Meridians (Liver, Spleen, Kidney) -->
+            <line class="meridian-line" x1="99" y1="85" x2="99" y2="175" stroke="hsla(150, 84%, 37%, 0.4)" stroke-width="1.5" />
+            <line class="meridian-line" x1="105" y1="85" x2="105" y2="175" stroke="hsla(45, 93%, 47%, 0.4)" stroke-width="1.5" />
+            <line class="meridian-line" x1="111" y1="85" x2="111" y2="175" stroke="hsla(220, 80%, 50%, 0.4)" stroke-width="1.5" />
+
+            <!-- 6 Ki Dots on Liver (Middle, Yin) -->
+            <circle class="ki-dot dot-coldness" data-meridian="liver" data-ki="coldness" cx="99" cy="175" r="4.5" />
+            <circle class="ki-dot dot-dryness" data-meridian="liver" data-ki="dryness" cx="99" cy="157" r="4.5" />
+            <circle class="ki-dot dot-humidity" data-meridian="liver" data-ki="humidity" cx="99" cy="139" r="4.5" />
+            <circle class="ki-dot dot-wind" data-meridian="liver" data-ki="wind" cx="99" cy="121" r="4.5" />
+            <circle class="ki-dot dot-heat" data-meridian="liver" data-ki="heat" cx="99" cy="103" r="4.5" />
+            <circle class="ki-dot dot-hotness" data-meridian="liver" data-ki="hotness" cx="99" cy="85" r="4.5" />
+
+            <!-- 6 Ki Dots on Spleen (Middle, Yin) -->
+            <circle class="ki-dot dot-coldness" data-meridian="spleen" data-ki="coldness" cx="105" cy="175" r="4.5" />
+            <circle class="ki-dot dot-dryness" data-meridian="spleen" data-ki="dryness" cx="105" cy="157" r="4.5" />
+            <circle class="ki-dot dot-humidity" data-meridian="spleen" data-ki="humidity" cx="105" cy="139" r="4.5" />
+            <circle class="ki-dot dot-wind" data-meridian="spleen" data-ki="wind" cx="105" cy="121" r="4.5" />
+            <circle class="ki-dot dot-heat" data-meridian="spleen" data-ki="heat" cx="105" cy="103" r="4.5" />
+            <circle class="ki-dot dot-hotness" data-meridian="spleen" data-ki="hotness" cx="105" cy="85" r="4.5" />
+
+            <!-- 6 Ki Dots on Kidney (Middle, Yin) -->
+            <circle class="ki-dot dot-coldness" data-meridian="kidney" data-ki="coldness" cx="111" cy="175" r="4.5" />
+            <circle class="ki-dot dot-dryness" data-meridian="kidney" data-ki="dryness" cx="111" cy="157" r="4.5" />
+            <circle class="ki-dot dot-humidity" data-meridian="kidney" data-ki="humidity" cx="111" cy="139" r="4.5" />
+            <circle class="ki-dot dot-wind" data-meridian="kidney" data-ki="wind" cx="111" cy="121" r="4.5" />
+            <circle class="ki-dot dot-heat" data-meridian="kidney" data-ki="heat" cx="111" cy="103" r="4.5" />
+            <circle class="ki-dot dot-hotness" data-meridian="kidney" data-ki="hotness" cx="111" cy="85" r="4.5" />
+
+            <!-- Flow Arrows -->
+            <path class="flow-arrow" d="M 74,200 L 74,193 M 74,193 L 71,196 M 74,193 L 77,196" stroke="var(--primary-light)" stroke-width="1.5" />
+            <path class="flow-arrow" d="M 80,200 L 80,193 M 80,193 L 77,196 M 80,193 L 83,196" stroke="var(--primary-light)" stroke-width="1.5" />
+            <path class="flow-arrow" d="M 86,200 L 86,193 M 86,193 L 83,196 M 86,193 L 89,196" stroke="var(--primary-light)" stroke-width="1.5" />
+            <!-- Middle finger Yin flow is downward -->
+            <path class="flow-arrow" d="M 99,183 L 99,190 M 99,190 L 96,187 M 99,190 L 102,187" stroke="hsl(0, 84%, 55%)" stroke-width="1.5" />
+            <path class="flow-arrow" d="M 105,183 L 105,190 M 105,190 L 102,187 M 105,190 L 108,187" stroke="hsl(0, 84%, 55%)" stroke-width="1.5" />
+            <path class="flow-arrow" d="M 111,183 L 111,190 M 111,190 L 108,187 M 111,190 L 114,187" stroke="hsl(0, 84%, 55%)" stroke-width="1.5" />
+          </g>
         </svg>
 
         <!-- YANG VIEW SVG (Hidden by default) -->
-        <svg class="svg-container" id="svg-yang" viewBox="0 0 200 380" xmlns="http://www.w3.org/2000/svg" style="display: none;">
-          <!-- Mirrored Hand Outline -->
-          <path class="hand-outline" d="M 90,360 C 105,360 120,340 130,300 C 150,290 180,250 185,220 C 190,195 175,175 155,190 C 145,198 135,210 130,225 L 130,105 C 130,90 110,90 110,105 L 110,210 L 105,75 C 105,60 85,60 85,75 L 85,200 L 80,65 C 80,50 60,50 60,65 L 60,205 L 55,80 C 55,65 35,65 35,80 L 35,270 C 35,310 40,340 55,360 Z" />
+        <svg class="svg-container left-hand" id="svg-yang" viewBox="0 0 200 380" xmlns="http://www.w3.org/2000/svg" style="display: none;">
+          <defs>
+            <pattern id="hologram-grid-yang" width="12" height="12" patternUnits="userSpaceOnUse">
+              <path d="M 12 0 L 0 0 0 12" fill="none" stroke="hsla(150, 84%, 37%, 0.12)" stroke-width="0.5"/>
+            </pattern>
+          </defs>
           
-          <!-- Back of Head (Thumb Back) -->
-          <circle class="organ-point" id="pt-head-back" data-organ="head" cx="170" cy="205" r="14" />
-          
-          <!-- Spine (Governor Meridian / Nervous System Pathway) -->
-          <path class="organ-point" id="pt-spine" data-organ="spinal_cord" d="M 100,220 L 100,345" stroke-width="8" stroke-linecap="round" />
-          <!-- Spine Thumb neck connection -->
-          <path class="organ-point" id="pt-neck-spine" data-organ="spinal_cord" d="M 148,220 C 140,240 110,250 100,250" stroke-width="6" stroke-linecap="round" />
+          <!-- Holographic Layered Outline -->
+          <path class="hand-outline-bg" d="M 90,360 C 105,360 120,340 130,300 C 150,290 180,250 185,220 C 190,195 175,175 155,190 C 145,198 135,210 130,225 L 130,105 C 130,90 110,90 110,105 L 110,210 L 105,75 C 105,60 85,60 85,75 L 85,200 L 80,65 C 80,50 60,50 60,65 L 60,205 L 55,80 C 55,65 35,65 35,80 L 35,270 C 35,310 40,340 55,360 Z" fill="hsla(223, 33%, 8%, 0.85)" />
+          <path class="hand-outline-grid" d="M 90,360 C 105,360 120,340 130,300 C 150,290 180,250 185,220 C 190,195 175,175 155,190 C 145,198 135,210 130,225 L 130,105 C 130,90 110,90 110,105 L 110,210 L 105,75 C 105,60 85,60 85,75 L 85,200 L 80,65 C 80,50 60,50 60,65 L 60,205 L 55,80 C 55,65 35,65 35,80 L 35,270 C 35,310 40,340 55,360 Z" fill="url(#hologram-grid-yang)" />
+          <path class="hand-outline" d="M 90,360 C 105,360 120,340 130,300 C 150,290 180,250 185,220 C 190,195 175,175 155,190 C 145,198 135,210 130,225 L 130,105 C 130,90 110,90 110,105 L 110,210 L 105,75 C 105,60 85,60 85,75 L 85,200 L 80,65 C 80,50 60,50 60,65 L 60,205 L 55,80 C 55,65 35,65 35,80 L 35,270 C 35,310 40,340 55,360 Z" fill="none" stroke="var(--primary)" stroke-width="2" />
 
-          <!-- Left Kidney (Ring-Pinky gap) -->
-          <ellipse class="organ-point" id="pt-left-kidney" data-organ="kidneys" cx="62" cy="285" rx="7" ry="12" transform="rotate(15 62 285)" />
-          
-          <!-- Right Kidney (Index-Middle gap) -->
-          <ellipse class="organ-point" id="pt-right-kidney" data-organ="kidneys" cx="116" cy="285" rx="7" ry="12" transform="rotate(-15 116 285)" />
+          <!-- ORGAN GROUP -->
+          <g class="organ-group">
+            <!-- Back of Head (Thumb Back) -->
+            <path class="organ-point pt-head-style" id="pt-head-back" data-organ="head" d="M 166,192 C 160,192 156,197 156,204 C 156,212 163,220 168,220 C 173,220 180,212 180,204 C 180,197 176,192 170,192 C 169,192 168,193 168,193 C 168,193 167,192 166,192 Z" />
+            
+            <!-- Spine (Segmented Vertebrae) -->
+            <path class="organ-point pt-spine-style" id="pt-spine" data-organ="spinal_cord" d="M 100,220 L 100,345" stroke-width="8" stroke-linecap="round" stroke-dasharray="8 4" fill="none" />
+            <path class="organ-point pt-spine-style" id="pt-neck-spine" data-organ="spinal_cord" d="M 148,220 C 140,240 110,250 100,250" stroke-width="6" stroke-linecap="round" fill="none" />
+            
+            <!-- Left Kidney -->
+            <path class="organ-point pt-kidneys-style" id="pt-left-kidney" data-organ="kidneys" d="M 58,275 C 65,273 68,280 66,290 C 64,296 56,294 54,286 C 53,280 55,277 58,275 Z" />
+            
+            <!-- Right Kidney -->
+            <path class="organ-point pt-kidneys-style" id="pt-right-kidney" data-organ="kidneys" d="M 120,275 C 113,273 110,280 112,290 C 114,296 122,294 124,286 C 125,280 123,277 120,275 Z" />
+
+            <!-- Limbs (Arms & Legs - represented by finger segments) -->
+            <!-- Index Finger (representing Right Arm on Right Hand, Left Arm on Left Hand) -->
+            <line class="organ-point pt-limbs-style" id="pt-left-arm-yang" data-organ="limbs" x1="120" y1="110" x2="120" y2="190" stroke-width="12" stroke-linecap="round" />
+            <!-- Middle Finger -->
+            <line class="organ-point pt-limbs-style" id="pt-left-leg-yang" data-organ="limbs" x1="95" y1="85" x2="95" y2="180" stroke-width="12" stroke-linecap="round" />
+            <!-- Ring Finger -->
+            <line class="organ-point pt-limbs-style" id="pt-right-leg-yang" data-organ="limbs" x1="70" y1="75" x2="70" y2="185" stroke-width="12" stroke-linecap="round" />
+            <!-- Pinky Finger -->
+            <line class="organ-point pt-limbs-style" id="pt-right-arm-yang" data-organ="limbs" x1="45" y1="95" x2="45" y2="195" stroke-width="12" stroke-linecap="round" />
+          </g>
+
+          <!-- 6 KI MERIDIAN GROUP -->
+          <g class="meridian-group">
+            <!-- Index Finger Yang (Large Intestine, Spinal Cord, Small Intestine) -->
+            <line class="meridian-line" x1="114" y1="110" x2="114" y2="190" stroke="hsla(27, 96%, 54%, 0.4)" stroke-width="1.5" />
+            <line class="meridian-line" x1="120" y1="110" x2="120" y2="190" stroke="hsla(0, 0%, 90%, 0.4)" stroke-width="1.5" />
+            <line class="meridian-line" x1="126" y1="110" x2="126" y2="190" stroke="hsla(0, 84%, 55%, 0.4)" stroke-width="1.5" />
+
+            <!-- 6 Ki Dots on Large Intestine (Index, Yang) -->
+            <circle class="ki-dot dot-coldness" data-meridian="large_intestine" data-ki="coldness" cx="114" cy="110" r="4.5" />
+            <circle class="ki-dot dot-dryness" data-meridian="large_intestine" data-ki="dryness" cx="114" cy="126" r="4.5" />
+            <circle class="ki-dot dot-humidity" data-meridian="large_intestine" data-ki="humidity" cx="114" cy="142" r="4.5" />
+            <circle class="ki-dot dot-wind" data-meridian="large_intestine" data-ki="wind" cx="114" cy="158" r="4.5" />
+            <circle class="ki-dot dot-heat" data-meridian="large_intestine" data-ki="heat" cx="114" cy="174" r="4.5" />
+            <circle class="ki-dot dot-hotness" data-meridian="large_intestine" data-ki="hotness" cx="114" cy="190" r="4.5" />
+
+            <!-- 6 Ki Dots on Spinal Cord (Index, Yang) -->
+            <circle class="ki-dot dot-coldness" data-meridian="spinal_cord" data-ki="coldness" cx="120" cy="110" r="4.5" />
+            <circle class="ki-dot dot-dryness" data-meridian="spinal_cord" data-ki="dryness" cx="120" cy="126" r="4.5" />
+            <circle class="ki-dot dot-humidity" data-meridian="spinal_cord" data-ki="humidity" cx="120" cy="142" r="4.5" />
+            <circle class="ki-dot dot-wind" data-meridian="spinal_cord" data-ki="wind" cx="120" cy="158" r="4.5" />
+            <circle class="ki-dot dot-heat" data-meridian="spinal_cord" data-ki="heat" cx="120" cy="174" r="4.5" />
+            <circle class="ki-dot dot-hotness" data-meridian="spinal_cord" data-ki="hotness" cx="120" cy="190" r="4.5" />
+
+            <!-- 6 Ki Dots on Small Intestine (Index, Yang) -->
+            <circle class="ki-dot dot-coldness" data-meridian="small_intestine" data-ki="coldness" cx="126" cy="110" r="4.5" />
+            <circle class="ki-dot dot-dryness" data-meridian="small_intestine" data-ki="dryness" cx="126" cy="126" r="4.5" />
+            <circle class="ki-dot dot-humidity" data-meridian="small_intestine" data-ki="humidity" cx="126" cy="142" r="4.5" />
+            <circle class="ki-dot dot-wind" data-meridian="small_intestine" data-ki="wind" cx="126" cy="158" r="4.5" />
+            <circle class="ki-dot dot-heat" data-meridian="small_intestine" data-ki="heat" cx="126" cy="174" r="4.5" />
+            <circle class="ki-dot dot-hotness" data-meridian="small_intestine" data-ki="hotness" cx="126" cy="190" r="4.5" />
+
+            <!-- Middle Finger Yang (Gallbladder, Stomach, Bladder) -->
+            <line class="meridian-line" x1="89" y1="85" x2="89" y2="175" stroke="hsla(150, 84%, 37%, 0.4)" stroke-width="1.5" />
+            <line class="meridian-line" x1="95" y1="85" x2="95" y2="175" stroke="hsla(27, 96%, 54%, 0.4)" stroke-width="1.5" />
+            <line class="meridian-line" x1="101" y1="85" x2="101" y2="175" stroke="hsla(220, 80%, 50%, 0.4)" stroke-width="1.5" />
+
+            <!-- 6 Ki Dots on Gallbladder (Middle, Yang) -->
+            <circle class="ki-dot dot-coldness" data-meridian="gallbladder" data-ki="coldness" cx="89" cy="85" r="4.5" />
+            <circle class="ki-dot dot-dryness" data-meridian="gallbladder" data-ki="dryness" cx="89" cy="103" r="4.5" />
+            <circle class="ki-dot dot-humidity" data-meridian="gallbladder" data-ki="humidity" cx="89" cy="121" r="4.5" />
+            <circle class="ki-dot dot-wind" data-meridian="gallbladder" data-ki="wind" cx="89" cy="139" r="4.5" />
+            <circle class="ki-dot dot-heat" data-meridian="gallbladder" data-ki="heat" cx="89" cy="157" r="4.5" />
+            <circle class="ki-dot dot-hotness" data-meridian="gallbladder" data-ki="hotness" cx="89" cy="175" r="4.5" />
+
+            <!-- 6 Ki Dots on Stomach (Middle, Yang) -->
+            <circle class="ki-dot dot-coldness" data-meridian="stomach" data-ki="coldness" cx="95" cy="85" r="4.5" />
+            <circle class="ki-dot dot-dryness" data-meridian="stomach" data-ki="dryness" cx="95" cy="103" r="4.5" />
+            <circle class="ki-dot dot-humidity" data-meridian="stomach" data-ki="humidity" cx="95" cy="121" r="4.5" />
+            <circle class="ki-dot dot-wind" data-meridian="stomach" data-ki="wind" cx="95" cy="139" r="4.5" />
+            <circle class="ki-dot dot-heat" data-meridian="stomach" data-ki="heat" cx="95" cy="157" r="4.5" />
+            <circle class="ki-dot dot-hotness" data-meridian="stomach" data-ki="hotness" cx="95" cy="175" r="4.5" />
+
+            <!-- 6 Ki Dots on Bladder (Middle, Yang) -->
+            <circle class="ki-dot dot-coldness" data-meridian="bladder" data-ki="coldness" cx="101" cy="85" r="4.5" />
+            <circle class="ki-dot dot-dryness" data-meridian="bladder" data-ki="dryness" cx="101" cy="103" r="4.5" />
+            <circle class="ki-dot dot-humidity" data-meridian="bladder" data-ki="humidity" cx="101" cy="121" r="4.5" />
+            <circle class="ki-dot dot-wind" data-meridian="bladder" data-ki="wind" cx="101" cy="139" r="4.5" />
+            <circle class="ki-dot dot-heat" data-meridian="bladder" data-ki="heat" cx="101" cy="157" r="4.5" />
+            <circle class="ki-dot dot-hotness" data-meridian="bladder" data-ki="hotness" cx="101" cy="175" r="4.5" />
+
+            <!-- Flow Arrows -->
+            <!-- Index finger Yang flow is downward -->
+            <path class="flow-arrow" d="M 114,195 L 114,202 M 114,202 L 111,199 M 114,202 L 117,199" stroke="hsl(0, 84%, 55%)" stroke-width="1.5" />
+            <path class="flow-arrow" d="M 120,195 L 120,202 M 120,202 L 117,199 M 120,202 L 123,199" stroke="hsl(0, 84%, 55%)" stroke-width="1.5" />
+            <path class="flow-arrow" d="M 126,195 L 126,202 M 126,202 L 123,199 M 126,202 L 129,199" stroke="hsl(0, 84%, 55%)" stroke-width="1.5" />
+            <!-- Middle finger Yang flow is upward -->
+            <path class="flow-arrow" d="M 89,170 L 89,163 M 89,163 L 86,166 M 89,163 L 92,166" stroke="var(--primary-light)" stroke-width="1.5" />
+            <path class="flow-arrow" d="M 95,170 L 95,163 M 95,163 L 92,166 M 95,163 L 98,166" stroke="var(--primary-light)" stroke-width="1.5" />
+            <path class="flow-arrow" d="M 101,170 L 101,163 M 101,163 L 98,166 M 101,163 L 104,166" stroke="var(--primary-light)" stroke-width="1.5" />
+          </g>
         </svg>
 
       </div>

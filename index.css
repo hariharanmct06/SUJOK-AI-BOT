@@ -731,11 +731,236 @@ body {
   }
 }
 
-@keyframes typingBounce {
-  0%, 80%, 100% {
-    transform: scale(0);
+}
+
+/* Holographic Colorful Hand Map Styles */
+.pt-head-style {
+  fill: hsla(38, 92%, 50%, 0.15);
+  stroke: hsl(38, 92%, 50%);
+}
+.pt-head-style:hover, .pt-head-style.active {
+  fill: hsla(38, 92%, 50%, 0.55) !important;
+  filter: drop-shadow(0 0 10px hsl(38, 92%, 50%));
+}
+
+.pt-heart-style {
+  fill: hsla(0, 84%, 55%, 0.2);
+  stroke: hsl(0, 84%, 55%);
+}
+.pt-heart-style:hover, .pt-heart-style.active {
+  fill: hsla(0, 84%, 55%, 0.6) !important;
+  filter: drop-shadow(0 0 10px hsl(0, 84%, 55%));
+}
+
+.pt-lungs-style {
+  fill: hsla(199, 89%, 48%, 0.15);
+  stroke: hsl(199, 89%, 48%);
+}
+.pt-lungs-style:hover, .pt-lungs-style.active {
+  fill: hsla(199, 89%, 48%, 0.55) !important;
+  filter: drop-shadow(0 0 10px hsl(199, 89%, 48%));
+}
+
+.pt-stomach-style {
+  fill: hsla(27, 96%, 54%, 0.15);
+  stroke: hsl(27, 96%, 54%);
+}
+.pt-stomach-style:hover, .pt-stomach-style.active {
+  fill: hsla(27, 96%, 54%, 0.55) !important;
+  filter: drop-shadow(0 0 10px hsl(27, 96%, 54%));
+}
+
+.pt-liver-style {
+  fill: hsla(150, 84%, 37%, 0.15);
+  stroke: hsl(150, 84%, 37%);
+}
+.pt-liver-style:hover, .pt-liver-style.active {
+  fill: hsla(150, 84%, 37%, 0.55) !important;
+  filter: drop-shadow(0 0 10px hsl(150, 84%, 37%));
+}
+
+.pt-spleen-style {
+  fill: hsla(262, 83%, 58%, 0.15);
+  stroke: hsl(262, 83%, 58%);
+}
+.pt-spleen-style:hover, .pt-spleen-style.active {
+  fill: hsla(262, 83%, 58%, 0.55) !important;
+  filter: drop-shadow(0 0 10px hsl(262, 83%, 58%));
+}
+
+.pt-gallbladder-style {
+  fill: hsla(160, 84%, 25%, 0.25);
+  stroke: hsl(160, 84%, 25%);
+}
+.pt-gallbladder-style:hover, .pt-gallbladder-style.active {
+  fill: hsla(160, 84%, 25%, 0.65) !important;
+  filter: drop-shadow(0 0 10px hsl(160, 84%, 25%));
+}
+
+.pt-pancreas-style {
+  fill: hsla(45, 93%, 47%, 0.15);
+  stroke: hsl(45, 93%, 47%);
+}
+.pt-pancreas-style:hover, .pt-pancreas-style.active {
+  fill: hsla(45, 93%, 47%, 0.55) !important;
+  filter: drop-shadow(0 0 10px hsl(45, 93%, 47%));
+}
+
+.pt-bladder-style {
+  fill: hsla(38, 92%, 50%, 0.2);
+  stroke: hsl(38, 92%, 50%);
+}
+.pt-bladder-style:hover, .pt-bladder-style.active {
+  fill: hsla(38, 92%, 50%, 0.6) !important;
+  filter: drop-shadow(0 0 10px hsl(38, 92%, 50%));
+}
+
+.pt-intestines-style {
+  fill: hsla(0, 72%, 40%, 0.15);
+  stroke: hsl(0, 72%, 40%);
+}
+.pt-intestines-style:hover, .pt-intestines-style.active {
+  fill: hsla(0, 72%, 40%, 0.55) !important;
+  filter: drop-shadow(0 0 10px hsl(0, 72%, 40%));
+}
+
+.pt-limbs-style {
+  fill: hsla(218, 11%, 50%, 0.15);
+  stroke: hsl(218, 11%, 50%);
+}
+.pt-limbs-style:hover, .pt-limbs-style.active {
+  fill: hsla(218, 11%, 50%, 0.45) !important;
+  filter: drop-shadow(0 0 10px hsl(218, 11%, 50%));
+}
+
+.pt-kidneys-style {
+  fill: hsla(0, 63%, 31%, 0.2);
+  stroke: hsl(0, 63%, 31%);
+}
+.pt-kidneys-style:hover, .pt-kidneys-style.active {
+  fill: hsla(0, 63%, 31%, 0.6) !important;
+  filter: drop-shadow(0 0 10px hsl(0, 63%, 31%));
+}
+
+.pt-spine-style {
+  fill: hsla(0, 0%, 90%, 0.15);
+  stroke: hsl(0, 0%, 90%);
+}
+.pt-spine-style:hover, .pt-spine-style.active {
+  fill: hsla(0, 0%, 90%, 0.45) !important;
+  filter: drop-shadow(0 0 10px hsl(0, 0%, 95%));
+}
+
+/* Mirroring transform for Left Hand view */
+.svg-container.left-hand {
+  transform: scaleX(-1);
+  transform-origin: center;
+  transition: transform 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+/* Holographic 3D Grid Overlay & Layers */
+.hand-outline-bg {
+  transition: fill var(--transition-normal);
+}
+
+.hand-outline-grid {
+  pointer-events: none;
+  mix-blend-mode: screen;
+}
+
+.hand-outline-bg, .hand-outline-grid, .hand-outline {
+  transform-origin: center;
+}
+
+/* Mode Visibility Controls */
+#hand-map-container:not(.mode-meridians) .organ-group {
+  display: block;
+}
+#hand-map-container:not(.mode-meridians) .meridian-group {
+  display: none;
+}
+
+#hand-map-container.mode-meridians .organ-group {
+  display: none;
+}
+#hand-map-container.mode-meridians .meridian-group {
+  display: block;
+}
+
+/* 6 Ki Meridians & Dots Styling */
+.meridian-line {
+  stroke-dasharray: none;
+  stroke-linecap: round;
+  filter: drop-shadow(0 0 2px rgba(255, 255, 255, 0.15));
+}
+
+.flow-arrow {
+  fill: none;
+  stroke-linecap: round;
+  stroke-linejoin: round;
+  opacity: 0.7;
+}
+
+.ki-dot {
+  cursor: pointer;
+  stroke: hsl(222, 47%, 6%);
+  stroke-width: 1.5;
+  transition: r 0.2s var(--transition-fast), stroke-width 0.2s, stroke 0.2s, filter 0.2s;
+}
+
+/* Energy Specific Colors & Glows */
+.ki-dot.dot-coldness {
+  fill: hsl(210, 100%, 50%);
+  --glow-color: hsl(210, 100%, 50%);
+}
+.ki-dot.dot-dryness {
+  fill: hsl(28, 38%, 46%);
+  --glow-color: hsl(28, 38%, 56%);
+}
+.ki-dot.dot-humidity {
+  fill: hsl(48, 95%, 48%);
+  --glow-color: hsl(48, 95%, 58%);
+}
+.ki-dot.dot-wind {
+  fill: hsl(145, 80%, 42%);
+  --glow-color: hsl(145, 80%, 52%);
+}
+.ki-dot.dot-heat {
+  fill: hsl(0, 85%, 55%);
+  --glow-color: hsl(0, 85%, 65%);
+}
+.ki-dot.dot-hotness {
+  fill: hsl(27, 95%, 55%);
+  --glow-color: hsl(27, 95%, 65%);
+}
+
+/* Hover and Active states for 6 Ki Dots */
+.ki-dot:hover {
+  r: 6.5px;
+  stroke: #ffffff;
+  stroke-width: 2px;
+  filter: drop-shadow(0 0 8px var(--glow-color));
+}
+
+.ki-dot.active {
+  r: 7.5px;
+  stroke: #ffffff;
+  stroke-width: 2.5px;
+  filter: drop-shadow(0 0 14px var(--glow-color));
+  animation: pulse-dot 1.5s infinite alternate ease-in-out;
+}
+
+@keyframes pulse-dot {
+  0% {
+    filter: drop-shadow(0 0 4px var(--glow-color));
   }
-  40% {
-    transform: scale(1);
+  100% {
+    filter: drop-shadow(0 0 16px var(--glow-color));
   }
 }
+
+/* Cortex and Organ fine details */
+.cortex-line, .bronchi-line, .aorta-line {
+  pointer-events: none;
+}
+

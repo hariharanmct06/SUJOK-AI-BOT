@@ -7,6 +7,10 @@ document.addEventListener("DOMContentLoaded", () => {
   const svgYin = document.getElementById("svg-yin");
   const svgYang = document.getElementById("svg-yang");
   
+  // Hand Selector Elements
+  const btnLeftHand = document.getElementById("btn-left-hand");
+  const btnRightHand = document.getElementById("btn-right-hand");
+  
   const chatBox = document.getElementById("chat-box");
   const chatForm = document.getElementById("chat-form");
   const userInput = document.getElementById("user-input");
@@ -27,8 +31,15 @@ document.addEventListener("DOMContentLoaded", () => {
   const mainContainer = document.querySelector(".main-container");
   const chatNotification = document.getElementById("chat-notification");
 
+  // Map Mode Selectors
+  const btnModeOrgans = document.getElementById("btn-mode-organs");
+  const btnModeMeridians = document.getElementById("btn-mode-meridians");
+  const handMapContainer = document.getElementById("hand-map-container");
+
   // State
   let activeView = "yin"; // yin or yang
+  let activeHand = "left"; // left or right
+  let activeMode = "organs"; // organs or meridians
 
   // 1. VIEW SWITCHING (Yin vs Yang hand map)
   function switchView(view) {
@@ -55,7 +66,7 @@ document.addEventListener("DOMContentLoaded", () => {
   const organPoints = document.querySelectorAll(".organ-point");
   
   function resetActivePoints() {
-    organPoints.forEach(pt => pt.classList.remove("active"));
+    document.querySelectorAll(".organ-point, .ki-dot").forEach(pt => pt.classList.remove("active"));
   }
 
   organPoints.forEach(point => {
@@ -65,22 +76,54 @@ document.addEventListener("DOMContentLoaded", () => {
       point.classList.add("active");
       
       const organKey = point.getAttribute("data-organ");
-      handleOrganClick(organKey);
+      handleOrganClick(organKey, point.getAttribute("id"));
     });
   });
 
   // Handle click outside SVG points to reset active indicator
   document.addEventListener("click", (e) => {
-    if (!e.target.classList.contains("organ-point")) {
+    if (!e.target.classList.contains("organ-point") && !e.target.classList.contains("ki-dot")) {
       resetActivePoints();
     }
   });
 
-  function handleOrganClick(organKey) {
+  function handleOrganClick(organKey, elementId = null) {
     let organData = null;
     
+    // Customize limbs based on activeHand and elementId
+    if (organKey === "limbs" && elementId) {
+      const isIndex = elementId.includes("left-arm");
+      const isMiddle = elementId.includes("left-leg");
+      const isRing = elementId.includes("right-leg");
+      const isPinky = elementId.includes("right-arm");
+      
+      let limbName = "";
+      let limbDesc = "";
+      
+      if (activeHand === "left") {
+        if (isIndex) { limbName = "Left Arm"; limbDesc = "Index finger representing the Left Arm in Left Hand correspondence."; }
+        else if (isMiddle) { limbName = "Left Leg"; limbDesc = "Middle finger representing the Left Leg in Left Hand correspondence."; }
+        else if (isRing) { limbName = "Right Leg"; limbDesc = "Ring finger representing the Right Leg in Left Hand correspondence."; }
+        else if (isPinky) { limbName = "Right Arm"; limbDesc = "Pinky finger representing the Right Arm in Left Hand correspondence."; }
+      } else {
+        // Right Hand (Mirrored)
+        if (isIndex) { limbName = "Right Arm"; limbDesc = "Index finger representing the Right Arm in Right Hand correspondence."; }
+        else if (isMiddle) { limbName = "Right Leg"; limbDesc = "Middle finger representing the Right Leg in Right Hand correspondence."; }
+        else if (isRing) { limbName = "Left Leg"; limbDesc = "Ring finger representing the Left Leg in Right Hand correspondence."; }
+        else if (isPinky) { limbName = "Left Arm"; limbDesc = "Pinky finger representing the Left Arm in Right Hand correspondence."; }
+      }
+      
+      organData = {
+        name: `${limbName} (Limb Correspondence)`,
+        location: `${activeHand === "left" ? "Left" : "Right"} Hand - ${isIndex ? "Index" : isMiddle ? "Middle" : isRing ? "Ring" : "Little"} Finger`,
+        details: `${limbDesc} In Sujok theory, the four fingers correspond to the limbs of the body. The middle two represent legs, and the outer two represent arms. The joints correspond to shoulder/hip, elbow/knee, and wrist/ankle from base to tip.`,
+        treatment: `For pain or issues in the ${limbName.toLowerCase()}, stimulate the corresponding finger joint (base = shoulder/hip, middle = elbow/knee, tip = wrist/ankle). Use a Sujok ring massage or apply buckwheat/black pepper seeds.`,
+        six_ki: "Varies (Wind/Humidity)",
+        element: "Wood/Earth"
+      };
+    } 
     // Look up in correspondence
-    if (SUJOK_KB.correspondence[organKey]) {
+    else if (SUJOK_KB.correspondence[organKey]) {
       organData = SUJOK_KB.correspondence[organKey];
     } else if (SUJOK_KB.concepts[organKey]) {
       // Fallback to concept details (like spinal cord)
@@ -135,6 +178,58 @@ document.addEventListener("DOMContentLoaded", () => {
       }, 500);
     }
   }
+
+  // Handle 6 Ki Byol Meridian Point Clicks
+  function handleKiDotClick(meridianKey, kiKey) {
+    const meridianData = SUJOK_KB.byolPoints[meridianKey];
+    if (!meridianData) return;
+    
+    const pointData = meridianData.points[kiKey];
+    if (!pointData) return;
+    
+    // Update left panel
+    infoOrganName.textContent = `${meridianData.name} - ${pointData.name}`;
+    infoOrganLoc.textContent = `${meridianData.side} Side - Finger Meridian Point`;
+    infoOrganDesc.textContent = `You clicked the ${pointData.name} (${pointData.ki} energy) on the ${meridianData.name}. ${pointData.action}`;
+    
+    infoOrganMeta.style.display = "flex";
+    infoMetaKi.textContent = pointData.ki;
+    infoMetaElem.textContent = meridianData.side === "Yin" ? "Yin Meridian" : "Yang Meridian";
+    
+    infoOrganTip.style.display = "flex";
+    infoTipText.textContent = `Treatment Action: ${pointData.action}`;
+    
+    // Trigger Bot Message response
+    const clickMsg = `Clicked Byol Meridian Point: ${meridianData.name} (${pointData.ki})`;
+    appendMessage("user", clickMsg);
+    
+    showTypingIndicator();
+    setTimeout(() => {
+      removeTypingIndicator();
+      
+      const answer = `
+        <h3>${meridianData.name} - ${pointData.name}</h3>
+        <p><b>Energy Quality:</b> ${pointData.ki} (Phase energy of ${meridianData.name})</p>
+        <p><b>Clinical Application:</b> ${pointData.action}</p>
+        <p><b>Treatment Practice:</b> To treat this, you can apply color therapy directly onto the corresponding dot (e.g. Red marker to strengthen, Blue/Black marker to weaken) or secure a seed with medical tape.</p>
+      `;
+      appendMessage("bot", answer);
+    }, 500);
+  }
+
+  // Register 6 Ki Dots
+  const kiDots = document.querySelectorAll(".ki-dot");
+  kiDots.forEach(dot => {
+    dot.addEventListener("click", (e) => {
+      e.stopPropagation();
+      resetActivePoints();
+      dot.classList.add("active");
+      
+      const meridian = dot.getAttribute("data-meridian");
+      const ki = dot.getAttribute("data-ki");
+      handleKiDotClick(meridian, ki);
+    });
+  });
 
   // 3. CHATBOT ENGINE
   chatForm.addEventListener("submit", (e) => {
@@ -392,5 +487,47 @@ document.addEventListener("DOMContentLoaded", () => {
   if (tabMap && tabChat) {
     tabMap.addEventListener("click", () => switchMobileTab("mobile-show-map"));
     tabChat.addEventListener("click", () => switchMobileTab("mobile-show-chat"));
+  }
+
+  // 6. HAND SELECTION LOGIC (Left vs Right Hand)
+  function switchHand(hand) {
+    activeHand = hand;
+    if (hand === "left") {
+      btnLeftHand.classList.add("active");
+      btnRightHand.classList.remove("active");
+      svgYin.classList.add("left-hand");
+      svgYang.classList.add("left-hand");
+    } else {
+      btnRightHand.classList.add("active");
+      btnLeftHand.classList.remove("active");
+      svgYin.classList.remove("left-hand");
+      svgYang.classList.remove("left-hand");
+    }
+    resetActivePoints();
+  }
+
+  if (btnLeftHand && btnRightHand) {
+    btnLeftHand.addEventListener("click", () => switchHand("left"));
+    btnRightHand.addEventListener("click", () => switchHand("right"));
+  }
+
+  // 7. MAP MODE SELECTION LOGIC (Organs vs Meridians)
+  function switchMode(mode) {
+    activeMode = mode;
+    if (mode === "organs") {
+      btnModeOrgans.classList.add("active");
+      btnModeMeridians.classList.remove("active");
+      handMapContainer.classList.remove("mode-meridians");
+    } else {
+      btnModeMeridians.classList.add("active");
+      btnModeOrgans.classList.remove("active");
+      handMapContainer.classList.add("mode-meridians");
+    }
+    resetActivePoints();
+  }
+
+  if (btnModeOrgans && btnModeMeridians) {
+    btnModeOrgans.addEventListener("click", () => switchMode("organs"));
+    btnModeMeridians.addEventListener("click", () => switchMode("meridians"));
   }
 });

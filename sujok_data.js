@@ -125,13 +125,40 @@ const SUJOK_KB = {
       element: "Wood"
     },
     spleen: {
-      name: "Spleen and Pancreas",
-      keywords: ["spleen", "pancreas", "diabetes", "insulin", "immune", "blood sugar", "lymph"],
-      location: "Left side of the palm, slightly below and behind the stomach zone",
-      details: "Associated with digestion and blood purification, mirrored on the left flank of the palm's center.",
-      treatment: "Stimulate for diabetes support, low immunity, or muscle weakness. Apply yellow color.",
+      name: "Spleen",
+      keywords: ["spleen", "immune", "lymph", "blood filtering"],
+      location: "Left edge of the palm, slightly below the stomach zone",
+      details: "Corresponding to the spleen's position on the left side of the abdominal cavity. Spleen is responsible for filtering blood, supporting the immune system, and storing platelets.",
+      treatment: "Massage this point to boost immune response or help with blood disorders. Apply yellow color.",
       six_ki: "Humidity",
       element: "Earth"
+    },
+    pancreas: {
+      name: "Pancreas",
+      keywords: ["pancreas", "diabetes", "insulin", "blood sugar", "pancreatitis"],
+      location: "Horizontal band running below the stomach and liver in the upper-middle palm",
+      details: "The pancreas lies horizontally in the abdomen behind the stomach. It produces insulin and glucagon to regulate blood sugar, and digestive enzymes.",
+      treatment: "Excellent point for diabetes support. Apply yellow color or buckwheat seeds along the pancreas line.",
+      six_ki: "Humidity",
+      element: "Earth"
+    },
+    gallbladder: {
+      name: "Gallbladder",
+      keywords: ["gallbladder", "gall bladder", "gallstone", "gallstones", "bile storage"],
+      location: "Directly below the liver on the right side of the upper palm",
+      details: "Small pear-shaped organ that stores and concentrates bile produced by the liver, essential for digesting fats.",
+      treatment: "Massage this point for fat indigestion, gallbladder pain, or temporal headaches. Use green color.",
+      six_ki: "Wind",
+      element: "Wood"
+    },
+    bladder: {
+      name: "Urinary Bladder",
+      keywords: ["bladder", "urinary bladder", "urination", "uti", "bedwetting", "cystitis"],
+      location: "Bottom center of the palm, near the wrist crease between the middle and ring finger bases",
+      details: "Represents the bladder in the pelvic cavity. Responsible for storing urine before excretion.",
+      treatment: "Massage this point firmly for urinary tract infections (UTI), bladder leakage, frequent urination, or bedwetting. Tape black pepper or a red bean here.",
+      six_ki: "Coldness",
+      element: "Water"
     },
     kidneys: {
       name: "Kidneys",

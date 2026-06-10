@@ -36,10 +36,22 @@ document.addEventListener("DOMContentLoaded", () => {
   const btnModeMeridians = document.getElementById("btn-mode-meridians");
   const handMapContainer = document.getElementById("hand-map-container");
 
+  // Language & Voice Controls Elements
+  const btnLangEn = document.getElementById("btn-lang-en");
+  const btnLangTa = document.getElementById("btn-lang-ta");
+  const btnVoiceToggle = document.getElementById("btn-voice-toggle");
+  const voiceIcon = document.getElementById("voice-icon");
+  const voiceStatusText = document.getElementById("voice-status-text");
+  const btnMic = document.getElementById("btn-mic");
+  const micIcon = document.getElementById("mic-icon");
+  const handTreatmentGuide = document.getElementById("hand-treatment-guide");
+
   // State
   let activeView = "yin"; // yin or yang
   let activeHand = "left"; // left or right
   let activeMode = "organs"; // organs or meridians
+  let activeLanguage = "en"; // "en" or "ta"
+  let voiceOutputEnabled = false;
 
   // 1. VIEW SWITCHING (Yin vs Yang hand map)
   function switchView(view) {
@@ -249,15 +261,119 @@ document.addEventListener("DOMContentLoaded", () => {
     }
   });
 
-  function handleUserMessage(query) {
+  // Chat History Array to maintain conversation context (max 10 messages)
+  const chatHistory = [];
+
+  // Helper to extract Sujok context from the local knowledge base to send to the AI
+  function extractSujokContext(query) {
+    const cleanQuery = query.toLowerCase().replace(/[.,\/#!$%\^&\*;:{}=\-_`~()?]/g, "").trim();
+    if (cleanQuery === "") return null;
+
+    let contextText = "";
+
+    // 1. Check Organ Correspondence Match
+    for (const key in SUJOK_KB.correspondence) {
+      const organ = SUJOK_KB.correspondence[key];
+      const matchFound = organ.keywords && organ.keywords.some(kw => cleanQuery.includes(kw));
+      if (matchFound) {
+        highlightSvgPoint(key);
+        contextText += `Organ Match: ${organ.name}\nLocation: ${organ.location}\nDetails: ${organ.details}\nTreatment: ${organ.treatment}\n6 Ki Energy: ${organ.six_ki}\nFive Element: ${organ.element}\n\n`;
+      }
+    }
+
+    // 2. Check Disorder Match
+    if (SUJOK_KB.disorders) {
+      let bestDisorder = null;
+      let highestDisorderScore = 0;
+
+      for (const key in SUJOK_KB.disorders) {
+        const disorder = SUJOK_KB.disorders[key];
+        let score = 0;
+        
+        disorder.keywords.forEach(keyword => {
+          if (cleanQuery === keyword) {
+            score += 10;
+          } else if (cleanQuery.includes(keyword)) {
+            score += keyword.split(" ").length * 2;
+          }
+        });
+
+        if (score > highestDisorderScore) {
+          highestDisorderScore = score;
+          bestDisorder = disorder;
+        }
+      }
+
+      if (bestDisorder && highestDisorderScore > 0) {
+        if (bestDisorder.organLink) {
+          highlightSvgPoint(bestDisorder.organLink);
+        }
+        contextText += `Disorder Match: ${bestDisorder.name}\nMetaphysical Aspect: ${bestDisorder.metaphysical}\nTreatment Details: ${bestDisorder.treatment.replace(/<[^>]*>/g, '')}\n\n`;
+      }
+    }
+
+    return contextText || null;
+  }
+
+  async function handleUserMessage(query) {
+    // Stop any ongoing speech output when a new query starts
+    if (window.speechSynthesis) {
+      window.speechSynthesis.cancel();
+    }
+
     appendMessage("user", query);
     showTypingIndicator();
     
-    setTimeout(() => {
+    // Extract matching Sujok context (and trigger map highlights synchronously)
+    const context = extractSujokContext(query);
+    
+    try {
+      const response = await fetch("/api/chat", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json"
+        },
+        body: JSON.stringify({
+          message: query,
+          context: context,
+          history: chatHistory,
+          language: activeLanguage
+        })
+      });
+      
       removeTypingIndicator();
-      const response = processQuery(query);
-      appendMessage("bot", response);
-    }, 700);
+      
+      if (!response.ok) {
+        throw new Error(`Server returned status ${response.status}`);
+      }
+      
+      const data = await response.json();
+      const botResponse = data.reply;
+      
+      appendMessage("bot", botResponse);
+      
+      // Read aloud the AI response if option is enabled
+      speakResponse(botResponse);
+      
+      // Update history
+      chatHistory.push({ role: "user", content: query });
+      chatHistory.push({ role: "assistant", content: botResponse });
+      if (chatHistory.length > 10) {
+        chatHistory.splice(0, 2); // Keep last 5 rounds of turn (10 messages)
+      }
+    } catch (error) {
+      console.warn("Secure backend call failed. Falling back to offline local database...", error);
+      
+      // Offline fallback: Use the local rule-based matcher
+      setTimeout(() => {
+        removeTypingIndicator();
+        const fallbackResponse = processQuery(query);
+        appendMessage("bot", `${fallbackResponse} <p style="font-size:0.75rem;color:var(--text-muted);margin-top:0.5rem;border-top:1px dashed rgba(255,255,255,0.1);padding-top:0.3rem;"><i class="fa-solid fa-cloud-slash"></i> Offline mode: using local database.</p>`);
+        
+        // Read fallback aloud if option enabled
+        speakResponse(fallbackResponse);
+      }, 500);
+    }
   }
 
   function appendMessage(sender, text) {
@@ -491,6 +607,9 @@ document.addEventListener("DOMContentLoaded", () => {
 
   // 6. HAND SELECTION LOGIC (Left vs Right Hand)
   function switchHand(hand) {
+    if (hand === "right" && activeMode === "meridians") {
+      return; // Enforce Left Hand restriction for 6 Ki treatments
+    }
     activeHand = hand;
     if (hand === "left") {
       btnLeftHand.classList.add("active");
@@ -518,10 +637,55 @@ document.addEventListener("DOMContentLoaded", () => {
       btnModeOrgans.classList.add("active");
       btnModeMeridians.classList.remove("active");
       handMapContainer.classList.remove("mode-meridians");
+      
+      // Re-enable Right Hand option
+      if (btnRightHand) {
+        btnRightHand.classList.remove("disabled");
+        btnRightHand.removeAttribute("disabled");
+        btnRightHand.style.opacity = "1";
+        btnRightHand.style.cursor = "pointer";
+        btnRightHand.title = "";
+      }
+      
+      // Update guide to standard dual hand text
+      if (handTreatmentGuide) {
+        handTreatmentGuide.style.background = "hsla(150, 84%, 37%, 0.08)";
+        handTreatmentGuide.style.borderColor = "rgba(16, 185, 129, 0.15)";
+        handTreatmentGuide.innerHTML = `
+          <i class="fa-solid fa-circle-info" style="color: var(--primary-light); margin-top: 2px;"></i>
+          <span>
+            <strong>Treatment on Both Hands:</strong> Sujok can be done on either hand. The limb correspondence mirrors: on <b>Left Hand</b>, Index is Left Arm; on <b>Right Hand</b>, Index is Right Arm. Choose the hand matching the symptom side.
+          </span>
+        `;
+      }
     } else {
       btnModeMeridians.classList.add("active");
       btnModeOrgans.classList.remove("active");
       handMapContainer.classList.add("mode-meridians");
+      
+      // Force view to Left Hand (6 Ki treatments are only possible on Left Hand)
+      switchHand("left");
+      
+      // Disable Right Hand option visually and functionally
+      if (btnRightHand) {
+        btnRightHand.classList.add("disabled");
+        btnRightHand.setAttribute("disabled", "true");
+        btnRightHand.style.opacity = "0.4";
+        btnRightHand.style.cursor = "not-allowed";
+        btnRightHand.title = "6 Ki Meridian treatments are mapped exclusively on the Left Hand.";
+      }
+      
+      // Update guide to warn about Left Hand exclusive mapping
+      if (handTreatmentGuide) {
+        handTreatmentGuide.style.background = "hsla(38, 92%, 50%, 0.08)";
+        handTreatmentGuide.style.borderColor = "rgba(245, 158, 11, 0.15)";
+        handTreatmentGuide.innerHTML = `
+          <i class="fa-solid fa-triangle-exclamation" style="color: #f59e0b; margin-top: 2px;"></i>
+          <span>
+            <strong>Left Hand Exclusive:</strong> Byol Meridian (6 Ki) energy treatments are mapped and treated exclusively on the <b>Left Hand</b> in Sujok acupuncture.
+          </span>
+        `;
+      }
     }
     resetActivePoints();
   }
@@ -529,5 +693,172 @@ document.addEventListener("DOMContentLoaded", () => {
   if (btnModeOrgans && btnModeMeridians) {
     btnModeOrgans.addEventListener("click", () => switchMode("organs"));
     btnModeMeridians.addEventListener("click", () => switchMode("meridians"));
+  }
+
+  // 8. MULTILINGUAL & SPEECH ENGINE
+  
+  // Text-To-Speech (AI Voice Response)
+  function speakResponse(text) {
+    if (!voiceOutputEnabled || !window.speechSynthesis) return;
+
+    // Clean text: remove HTML tags for proper speech synthesis reading
+    const cleanText = text.replace(/<[^>]*>/g, "").trim();
+    if (!cleanText) return;
+
+    const utterance = new SpeechSynthesisUtterance(cleanText);
+    
+    // Auto detect if text contains Tamil characters
+    const isTamilText = /[\u0B80-\u0BFF]/.test(cleanText);
+    utterance.lang = isTamilText ? "ta-IN" : "en-US";
+
+    // Set voice properties for natural speech
+    utterance.rate = 1.0;
+    utterance.pitch = 1.0;
+
+    // Attempt to select a voice matching the language
+    const voices = window.speechSynthesis.getVoices();
+    const matchedVoice = voices.find(voice => 
+      voice.lang.startsWith(isTamilText ? "ta" : "en")
+    );
+    if (matchedVoice) {
+      utterance.voice = matchedVoice;
+    }
+
+    window.speechSynthesis.speak(utterance);
+  }
+
+  // Pre-load voices for speech synthesis (essential for Chrome/Safari)
+  if (window.speechSynthesis) {
+    window.speechSynthesis.getVoices();
+    if (window.speechSynthesis.onvoiceschanged !== undefined) {
+      window.speechSynthesis.onvoiceschanged = () => window.speechSynthesis.getVoices();
+    }
+  }
+
+  // Voice Toggle Button Event Listener
+  if (btnVoiceToggle) {
+    btnVoiceToggle.addEventListener("click", () => {
+      voiceOutputEnabled = !voiceOutputEnabled;
+      if (voiceOutputEnabled) {
+        btnVoiceToggle.classList.add("active");
+        voiceIcon.className = "fa-solid fa-volume-high";
+        voiceStatusText.textContent = "Voice ON";
+        
+        // Warm up by reading a short confirmation
+        speakResponse(activeLanguage === "ta" ? "ஒலி வடிவம் இயக்கப்பட்டது" : "Voice response enabled");
+      } else {
+        btnVoiceToggle.classList.remove("active");
+        voiceIcon.className = "fa-solid fa-volume-xmark";
+        voiceStatusText.textContent = "Voice OFF";
+        
+        // Stop speaking immediately
+        window.speechSynthesis.cancel();
+      }
+    });
+  }
+
+  // Language Selection Event Listeners
+  function updateLanguageUI(lang) {
+    activeLanguage = lang;
+    if (lang === "en") {
+      btnLangEn.classList.add("active");
+      btnLangTa.classList.remove("active");
+      userInput.placeholder = "Ask about Sujok (e.g. 'How to treat a headache?', 'Tell me about the Wind energy')...";
+      
+      // Update quick prompts
+      document.querySelector('[data-query="What is Sujok?"]').textContent = "What is Sujok?";
+      document.querySelector('[data-query="Explain the Yin-Yang Principle"]').textContent = "Yin-Yang Seesaw";
+      document.querySelector('[data-query="How does the 6 Ki Theory work?"]').textContent = "6 Ki (Six Energies)";
+      document.querySelector('[data-query="What are Brain and Spinal Cord meridians?"]').textContent = "Brain & Spinal Cord";
+      document.querySelector('[data-query="How do I use Seed Therapy?"]').textContent = "Seed Therapy";
+      document.querySelector('[data-query="Explain Emotional Treatment"]').textContent = "Emotional Healing";
+    } else {
+      btnLangTa.classList.add("active");
+      btnLangEn.classList.remove("active");
+      userInput.placeholder = "சுஜோக் பற்றி கேளுங்கள் (எ.கா. 'தலைவலி குணமாக என்ன செய்ய வேண்டும்?')...";
+      
+      // Update quick prompts to Tamil equivalents
+      document.querySelector('[data-query="What is Sujok?"]').textContent = "சுஜோக் என்றால் என்ன?";
+      document.querySelector('[data-query="Explain the Yin-Yang Principle"]').textContent = "யின-யாங் தத்துவம்";
+      document.querySelector('[data-query="How does the 6 Ki Theory work?"]').textContent = "6 கி (ஆறு ஆற்றல்கள்)";
+      document.querySelector('[data-query="What are Brain and Spinal Cord meridians?"]').textContent = "மூளை மற்றும் தண்டுவடம்";
+      document.querySelector('[data-query="How do I use Seed Therapy?"]').textContent = "விதை சிகிச்சை முறை";
+      document.querySelector('[data-query="Explain Emotional Treatment"]').textContent = "மன உணர்வு சிகிச்சை";
+    }
+  }
+
+  if (btnLangEn && btnLangTa) {
+    btnLangEn.addEventListener("click", () => updateLanguageUI("en"));
+    btnLangTa.addEventListener("click", () => updateLanguageUI("ta"));
+  }
+
+  // Speech Recognition (Speech-To-Text / Microphone)
+  let recognition = null;
+  let isRecording = false;
+  const SpeechRecognition = window.SpeechRecognition || window.webkitSpeechRecognition;
+
+  if (SpeechRecognition && btnMic) {
+    recognition = new SpeechRecognition();
+    recognition.continuous = false; // Stop when the user pauses
+    recognition.interimResults = false;
+
+    recognition.onstart = () => {
+      isRecording = true;
+      btnMic.classList.add("recording");
+      micIcon.className = "fa-solid fa-microphone-slash";
+      userInput.placeholder = activeLanguage === "ta" ? "பேசவும் (கேட்கிறது)..." : "Listening...";
+      
+      // Stop speech output if recording begins to avoid self-feedback
+      if (window.speechSynthesis) {
+        window.speechSynthesis.cancel();
+      }
+    };
+
+    recognition.onend = () => {
+      isRecording = false;
+      btnMic.classList.remove("recording");
+      micIcon.className = "fa-solid fa-microphone";
+      userInput.placeholder = activeLanguage === "ta"
+        ? "சுஜோக் பற்றி கேளுங்கள் (எ.கா. 'தலைவலி குணமாக என்ன செய்ய வேண்டும்?')..."
+        : "Ask about Sujok (e.g. 'How to treat a headache?', 'Tell me about the Wind energy')...";
+    };
+
+    recognition.onerror = (event) => {
+      console.warn("Speech recognition error:", event.error);
+      isRecording = false;
+      btnMic.classList.remove("recording");
+      micIcon.className = "fa-solid fa-microphone";
+    };
+
+    recognition.onresult = (event) => {
+      const transcript = event.results[0][0].transcript;
+      userInput.value = transcript;
+      
+      // Auto-submit after voice typing completes
+      setTimeout(() => {
+        if (userInput.value.trim()) {
+          handleUserMessage(userInput.value.trim());
+          userInput.value = "";
+        }
+      }, 500);
+    };
+
+    btnMic.addEventListener("click", () => {
+      if (isRecording) {
+        recognition.stop();
+      } else {
+        // Set recognition language: English (en-US) or Tamil (ta-IN)
+        // en-US handles phonetic Tanglish naturally into English characters
+        recognition.lang = activeLanguage === "ta" ? "ta-IN" : "en-US";
+        try {
+          recognition.start();
+        } catch (err) {
+          console.error("Failed to start speech recognition:", err);
+        }
+      }
+    });
+  } else if (btnMic) {
+    btnMic.style.display = "none";
+    console.warn("Web Speech Recognition API not supported in this browser.");
   }
 });

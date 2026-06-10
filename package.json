@@ -1,0 +1,15 @@
+{
+  "name": "sujok-ai-bot",
+  "version": "1.0.0",
+  "description": "Interactive Sujok acupuncture guide and wellness assistant",
+  "main": "server.js",
+  "scripts": {
+    "start": "node server.js"
+  },
+  "dependencies": {
+    "@google/generative-ai": "^0.11.0",
+    "dotenv": "^16.4.5",
+    "express": "^4.19.2",
+    "groq-sdk": "^0.5.0"
+  }
+}

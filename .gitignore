@@ -1,0 +1,5 @@
+.env
+extracted_book.txt
+images/
+node_modules/
+package-lock.json

@@ -19,6 +19,15 @@
       </div>
     </div>
     <div class="header-meta">
+      <!-- Language Selector Switch -->
+      <div class="lang-selector">
+        <button class="lang-btn active" id="btn-lang-en" data-lang="en" title="English">EN</button>
+        <button class="lang-btn" id="btn-lang-ta" data-lang="ta" title="தமிழ் (Tamil)">தமிழ்</button>
+      </div>
+      <!-- Voice Output Toggle -->
+      <button type="button" class="voice-toggle-btn" id="btn-voice-toggle" title="Toggle AI Voice Response">
+        <i class="fa-solid fa-volume-xmark" id="voice-icon"></i> <span id="voice-status-text">Voice OFF</span>
+      </button>
       <div class="status-badge">
         <span class="status-dot"></span>
         <span>Sujok Advisor Online</span>
@@ -381,6 +390,9 @@
       <form class="chat-input-container" id="chat-form">
         <div class="input-wrapper">
           <input type="text" class="chat-input" id="user-input" placeholder="Ask about Sujok (e.g. 'How to treat a headache?', 'Tell me about the Wind energy')..." autocomplete="off">
+          <button type="button" class="mic-btn" id="btn-mic" title="Speak to AI">
+            <i class="fa-solid fa-microphone" id="mic-icon"></i>
+          </button>
           <button type="submit" class="send-btn" id="btn-send">
             <i class="fa-solid fa-paper-plane"></i>
           </button>

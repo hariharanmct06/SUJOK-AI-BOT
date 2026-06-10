@@ -176,17 +176,108 @@ body {
   overflow: hidden;
 }
 
-@media (max-width: 1024px) {
+/* Mobile Tab Navigation */
+.mobile-tabs {
+  display: none; /* hidden on desktop */
+  background: hsla(222, 47%, 4%, 0.8);
+  border-bottom: 1px solid var(--border-color);
+  padding: 0.5rem;
+  gap: 0.5rem;
+  z-index: 9;
+}
+
+.mobile-tab-btn {
+  flex: 1;
+  background: transparent;
+  border: none;
+  padding: 0.75rem;
+  border-radius: var(--radius-sm);
+  color: var(--text-muted);
+  font-family: var(--font-header);
+  font-size: 0.9rem;
+  font-weight: 600;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.5rem;
+  cursor: pointer;
+  transition: var(--transition-fast);
+  position: relative;
+}
+
+.mobile-tab-btn:hover {
+  color: var(--text-main);
+}
+
+.mobile-tab-btn.active {
+  background: hsla(150, 84%, 37%, 0.1);
+  color: var(--primary-light);
+  border: 1px solid rgba(16, 185, 129, 0.2);
+}
+
+.chat-noti-dot {
+  position: absolute;
+  top: 6px;
+  right: 25%;
+  width: 8px;
+  height: 8px;
+  background-color: var(--accent);
+  border-radius: 50%;
+  box-shadow: 0 0 8px var(--accent);
+}
+
+@media (max-width: 1024px) and (min-width: 769px) {
   .main-container {
-    grid-template-columns: 1fr;
-    grid-template-rows: auto 1fr;
-    overflow-y: auto;
-  }
-  body {
-    overflow-y: auto;
+    grid-template-columns: 360px 1fr;
   }
   .map-panel {
-    height: 500px;
+    padding: 1rem;
+  }
+}
+
+@media (max-width: 768px) {
+  .mobile-tabs {
+    display: flex;
+  }
+  
+  .main-container {
+    grid-template-columns: 1fr;
+    height: calc(100vh - 4.45rem); /* viewport minus header + tab bar */
+    overflow: hidden;
+  }
+  
+  .map-panel {
+    padding: 1rem;
+    height: 100%;
+    overflow-y: auto;
+    border-right: none;
+  }
+  
+  .chat-panel {
+    height: 100%;
+  }
+
+  .chat-messages {
+    padding: 1rem;
+  }
+
+  .chat-input-container {
+    padding: 0.75rem 1rem 1.5rem;
+  }
+  
+  /* Toggle panels on mobile based on active class */
+  .main-container.mobile-show-chat .map-panel {
+    display: none;
+  }
+  .main-container.mobile-show-chat .chat-panel {
+    display: flex;
+  }
+  
+  .main-container.mobile-show-map .map-panel {
+    display: flex;
+  }
+  .main-container.mobile-show-map .chat-panel {
+    display: none;
   }
 }
 

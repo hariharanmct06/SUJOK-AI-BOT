@@ -21,6 +21,12 @@ document.addEventListener("DOMContentLoaded", () => {
   const infoOrganTip = document.getElementById("info-organ-tip");
   const infoTipText = document.getElementById("info-tip-text");
 
+  // Mobile Tabs DOM Elements
+  const tabMap = document.getElementById("tab-map");
+  const tabChat = document.getElementById("tab-chat");
+  const mainContainer = document.querySelector(".main-container");
+  const chatNotification = document.getElementById("chat-notification");
+
   // State
   let activeView = "palmar"; // palmar or dorsal
 
@@ -180,6 +186,11 @@ document.addEventListener("DOMContentLoaded", () => {
       top: chatBox.scrollHeight,
       behavior: "smooth"
     });
+
+    // Show notification dot on mobile if user is browsing the map
+    if (sender === "bot" && window.innerWidth <= 768 && mainContainer.classList.contains("mobile-show-map")) {
+      if (chatNotification) chatNotification.style.display = "block";
+    }
   }
 
   function showTypingIndicator() {
@@ -314,5 +325,33 @@ document.addEventListener("DOMContentLoaded", () => {
         pointEl.classList.add("active");
       }
     }
+  }
+
+  // 5. MOBILE TAB SWITCHING LOGIC
+  function switchMobileTab(panelClass) {
+    if (panelClass === "mobile-show-map") {
+      tabMap.classList.add("active");
+      tabChat.classList.remove("active");
+      mainContainer.classList.remove("mobile-show-chat");
+      mainContainer.classList.add("mobile-show-map");
+    } else {
+      tabChat.classList.add("active");
+      tabMap.classList.remove("active");
+      mainContainer.classList.remove("mobile-show-map");
+      mainContainer.classList.add("mobile-show-chat");
+      
+      // Clear notification dot when switching to Chat tab
+      if (chatNotification) chatNotification.style.display = "none";
+      
+      // Ensure chat box is scrolled down on first open
+      setTimeout(() => {
+        chatBox.scrollTop = chatBox.scrollHeight;
+      }, 50);
+    }
+  }
+
+  if (tabMap && tabChat) {
+    tabMap.addEventListener("click", () => switchMobileTab("mobile-show-map"));
+    tabChat.addEventListener("click", () => switchMobileTab("mobile-show-chat"));
   }
 });

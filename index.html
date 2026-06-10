@@ -26,8 +26,19 @@
     </div>
   </header>
 
+  <!-- Mobile Tab Navigation -->
+  <div class="mobile-tabs">
+    <button class="mobile-tab-btn active" id="tab-map" data-panel="mobile-show-map">
+      <i class="fa-solid fa-map"></i> Map Guide
+    </button>
+    <button class="mobile-tab-btn" id="tab-chat" data-panel="mobile-show-chat">
+      <i class="fa-solid fa-comments"></i> AI Chat
+      <span class="chat-noti-dot" id="chat-notification" style="display: none;"></span>
+    </button>
+  </div>
+
   <!-- Main Workspace -->
-  <main class="main-container">
+  <main class="main-container mobile-show-map">
     
     <!-- LEFT PANEL: Hand Map & Info -->
     <section class="map-panel">

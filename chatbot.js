@@ -1,5 +1,4 @@
 // Sujok Acupuncture Chatbot Logic (chatbot.js)
-
 document.addEventListener("DOMContentLoaded", () => {
   // DOM Elements
   const btnYin = document.getElementById("btn-yin");
@@ -293,7 +292,7 @@ document.addEventListener("DOMContentLoaded", () => {
         disorder.keywords.forEach(keyword => {
           if (cleanQuery === keyword) {
             score += 10;
-          } else if (cleanQuery.includes(keyword)) {
+          } else if (new RegExp("\\b" + keyword + "\\b").test(cleanQuery)) {
             score += keyword.split(" ").length * 2;
           }
         });
@@ -315,6 +314,36 @@ document.addEventListener("DOMContentLoaded", () => {
     return contextText || null;
   }
 
+  const BASIC_QA = {
+    "hi": "Hi! 👋 Welcome to Sujok AI Bot. How can I help you today?",
+    "hello": "Hello! 😊 Welcome to Sujok AI Bot. Feel free to ask any questions about Sujok Therapy.",
+    "what is sujok": "Sujok is a natural healing therapy developed by Prof. Park Jae Woo. It uses specific points on the hands and feet that correspond to different parts of the body.",
+    "who founded sujok": "Sujok Therapy was founded by Prof. Park Jae Woo from South Korea.",
+    "how does sujok work": "Sujok works by stimulating correspondence points on the hands and feet to help balance the body's energy and support natural healing.",
+    "can sujok cure diseases": "Sujok is a complementary therapy that may help support health and well-being. For serious medical conditions, please consult a qualified healthcare professional.",
+    "what are correspondence points": "Correspondence points are specific locations on the hands and feet that represent organs and body parts.",
+    "is sujok safe": "Yes, Sujok is generally considered safe when practiced correctly using non-invasive techniques.",
+    "can i learn sujok": "Absolutely! Sujok can be learned through books, courses, workshops, and guidance from certified practitioners.",
+    "what is a seed therapy": "Seed therapy involves placing seeds on specific Sujok points to stimulate healing energy naturally.",
+    "what is seed therapy": "Seed therapy involves placing seeds on specific Sujok points to stimulate healing energy naturally.",
+    "what is a meridian": "Meridians are energy pathways through which life energy flows throughout the body.",
+    "what is meridian": "Meridians are energy pathways through which life energy flows throughout the body.",
+    "can sujok help with pain": "Sujok practitioners often use correspondence points to help manage discomfort and support the body's healing process.",
+    "thank you": "You're welcome! 😊 If you have more questions about Sujok Therapy, feel free to ask anytime.",
+    "thanks": "You're welcome! 😊 If you have more questions about Sujok Therapy, feel free to ask anytime.",
+    "bye": "Thank you for using Sujok AI Bot. Have a great day! 👋",
+    "goodbye": "Thank you for using Sujok AI Bot. Have a great day! 👋",
+    "who created this ai bot": "Sujok AI Bot was created and marketed by Hari Bots & Business Solutions.",
+    "who created this bot": "Sujok AI Bot was created and marketed by Hari Bots & Business Solutions.",
+    "who created you": "Sujok AI Bot was created and marketed by Hari Bots & Business Solutions.",
+    "contact details": "📞 Hari Bots & Business Solutions<br>WhatsApp: +91 8667808803 / +91 8838154932",
+    "contact": "📞 Hari Bots & Business Solutions<br>WhatsApp: +91 8667808803 / +91 8838154932",
+    "whatsapp": "📞 Hari Bots & Business Solutions<br>WhatsApp: +91 8667808803 / +91 8838154932",
+    "what can you do": "I can answer questions about Sujok Therapy, correspondence points, meridians, seed therapy, energy systems, and basic Sujok concepts.",
+    "are you a doctor": "No. I am an AI assistant designed to provide educational information about Sujok Therapy and should not replace professional medical advice.",
+    "help": "Sure! You can ask me:<br>• What is Sujok?<br>• How to find correspondence points?<br>• What is seed therapy?<br>• Who founded Sujok?<br>• Pain-related Sujok guidance<br>• General Sujok education"
+  };
+
   async function handleUserMessage(query) {
     // Stop any ongoing speech output when a new query starts
     if (window.speechSynthesis) {
@@ -323,6 +352,24 @@ document.addEventListener("DOMContentLoaded", () => {
 
     appendMessage("user", query);
     showTypingIndicator();
+
+    const cleanQuery = query.toLowerCase().replace(/[.,\/#!$%\^&\*;:{}=\-_`~()?]/g, "").trim();
+    if (BASIC_QA[cleanQuery]) {
+      setTimeout(() => {
+        removeTypingIndicator();
+        const responseText = BASIC_QA[cleanQuery];
+        appendMessage("bot", responseText);
+        speakResponse(responseText);
+        
+        // Update history
+        chatHistory.push({ role: "user", content: query });
+        chatHistory.push({ role: "assistant", content: responseText });
+        if (chatHistory.length > 10) {
+          chatHistory.splice(0, 2);
+        }
+      }, 400);
+      return;
+    }
     
     // Extract matching Sujok context (and trigger map highlights synchronously)
     const context = extractSujokContext(query);
@@ -515,8 +562,8 @@ document.addEventListener("DOMContentLoaded", () => {
         if (cleanQuery === keyword) {
           score += 10;
         }
-        // Substring match
-        else if (cleanQuery.includes(keyword)) {
+        // Whole-word match
+        else if (new RegExp("\\b" + keyword + "\\b").test(cleanQuery)) {
           score += keyword.split(" ").length * 2; // heavier weight for longer phrase matches
         }
         else if (keyword.includes(cleanQuery) && cleanQuery.length > 3) {

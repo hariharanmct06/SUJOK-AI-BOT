@@ -936,7 +936,83 @@ const SUJOK_KB = {
   // Direct Q&A database for matching user questions
   faq: [
     {
-      keywords: ["what is sujok", "sujok meaning", "define sujok", "origin of sujok", "who created sujok", "invented sujok"],
+      keywords: ["hi"],
+      answer: "Hi! 👋 Welcome to Sujok AI Bot. How can I help you today?"
+    },
+    {
+      keywords: ["hello"],
+      answer: "Hello! 😊 Welcome to Sujok AI Bot. Feel free to ask any questions about Sujok Therapy."
+    },
+    {
+      keywords: ["what is sujok"],
+      answer: "Sujok is a natural healing therapy developed by Prof. Park Jae Woo. It uses specific points on the hands and feet that correspond to different parts of the body."
+    },
+    {
+      keywords: ["who founded sujok"],
+      answer: "Sujok Therapy was founded by Prof. Park Jae Woo from South Korea."
+    },
+    {
+      keywords: ["how does sujok work"],
+      answer: "Sujok works by stimulating correspondence points on the hands and feet to help balance the body's energy and support natural healing."
+    },
+    {
+      keywords: ["can sujok cure diseases"],
+      answer: "Sujok is a complementary therapy that may help support health and well-being. For serious medical conditions, please consult a qualified healthcare professional."
+    },
+    {
+      keywords: ["what are correspondence points"],
+      answer: "Correspondence points are specific locations on the hands and feet that represent organs and body parts."
+    },
+    {
+      keywords: ["is sujok safe"],
+      answer: "Yes, Sujok is generally considered safe when practiced correctly using non-invasive techniques."
+    },
+    {
+      keywords: ["can i learn sujok"],
+      answer: "Absolutely! Sujok can be learned through books, courses, workshops, and guidance from certified practitioners."
+    },
+    {
+      keywords: ["what is a seed therapy", "what is seed therapy"],
+      answer: "Seed therapy involves placing seeds on specific Sujok points to stimulate healing energy naturally."
+    },
+    {
+      keywords: ["what is a meridian", "what is meridian"],
+      answer: "Meridians are energy pathways through which life energy flows throughout the body."
+    },
+    {
+      keywords: ["can sujok help with pain"],
+      answer: "Sujok practitioners often use correspondence points to help manage discomfort and support the body's healing process."
+    },
+    {
+      keywords: ["thank you", "thanks"],
+      answer: "You're welcome! 😊 If you have more questions about Sujok Therapy, feel free to ask anytime."
+    },
+    {
+      keywords: ["bye", "goodbye"],
+      answer: "Thank you for using Sujok AI Bot. Have a great day! 👋"
+    },
+    {
+      keywords: ["who created this ai bot", "who created this bot", "who created you"],
+      answer: "Sujok AI Bot was created and marketed by Hari Bots & Business Solutions."
+    },
+    {
+      keywords: ["contact details", "contact", "whatsapp"],
+      answer: "📞 Hari Bots & Business Solutions<br>WhatsApp: +91 8667808803 / +91 8838154932"
+    },
+    {
+      keywords: ["what can you do"],
+      answer: "I can answer questions about Sujok Therapy, correspondence points, meridians, seed therapy, energy systems, and basic Sujok concepts."
+    },
+    {
+      keywords: ["are you a doctor"],
+      answer: "No. I am an AI assistant designed to provide educational information about Sujok Therapy and should not replace professional medical advice."
+    },
+    {
+      keywords: ["help"],
+      answer: "Sure! You can ask me:<br>• What is Sujok?<br>• How to find correspondence points?<br>• What is seed therapy?<br>• Who founded Sujok?<br>• Pain-related Sujok guidance<br>• General Sujok education"
+    },
+    {
+      keywords: ["sujok meaning", "define sujok", "origin of sujok", "who created sujok", "invented sujok", "sujok details"],
       answer: "<h3>What is Sujok?</h3><p><b>Sujok</b> is a natural, non-invasive therapeutic system developed by South Korean scientist <b>Prof. Park Jae Woo</b> in 1987. In Korean, <b>'Su'</b> means hand and <b>'Jok'</b> means foot. The core concept is that the hands and feet act as miniature, holographic 'remote control' systems for the entire body. When an organ or body part is sick, it projects high-sensitivity pain points onto corresponding areas of the hands and feet. Stimulating these points (with pressure, seeds, colors, moxa, or magnets) restores energy balance and accelerates healing.</p>"
     },
     {
@@ -956,7 +1032,7 @@ const SUJOK_KB = {
       answer: "<h3>Brain and Spinal Cord Meridians</h3><p>In standard Chinese medicine, the channels are translated as <i>Pericardium (Shin Po)</i> and <i>Triple Energizer (San Jiao)</i>. Prof. Park Jae Woo refined this, identifying them as the <b>Brain</b> and <b>Spinal Cord</b>:</p><ul><li><b>The Brain (Yin)</b>: Symbolized as the mind container. It controls mental thoughts, emotions, the nervous system, and coordinates the 5 Yin organs. The Brain meridian is located on the inner (Yin) side of the hand.</li><li><b>The Spinal Cord (Yang)</b>: The physical/metaphysical path that transmits brain instructions to the body and feeds sensory information back. The Spinal Cord meridian is on the outer (Yang) side of the hand.</li></ul><p>These two channels belong to the <b>Hotness</b> energy (Fire element) and are critical for neurological and psycho-emotional healing.</p>"
     },
     {
-      keywords: ["seed therapy", "seeds", "how to use seeds"],
+      keywords: ["detailed seed therapy", "seeds", "how to use seeds"],
       answer: "<h3>Sujok Seed Therapy</h3><p>Seed therapy utilizes the natural life energy of seeds to stimulate correspondence points over an extended period. Because seeds are living biological units, they release vital energy to heal the matching organ.</p><ul><li><b>How to apply</b>: Find the tender correspondence point on the hand/foot, place a seed on it, and secure it with medical paper tape. Leave it for 8 to 24 hours. Press the seed occasionally.</li><li><b>Selection of seeds</b>:<ul><li><i>Buckwheat seeds</i>: Multi-purpose, good for general acupressure due to their angular shape.</li><li><i>Kidney beans</i>: Shaped like kidneys, used for kidney pain, kidney stones, and lower back issues.</li><li><i>Black pepper corns</i>: Small and hot, used for coldness, throat infections, and localized pain.</li><li><i>Grape seeds / Apple seeds</i>: Good for linear structures like the intestines.</li><li><i>Green peas</i>: Spherical, excellent for eye, breast, or stomach points.</li><li><i>Mung beans (Mug grains)</i>: Oval and green, great for navel disturbances and liver points.</li></ul></li></ul>"
     },
     {
